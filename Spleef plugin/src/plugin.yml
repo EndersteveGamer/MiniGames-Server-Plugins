@@ -1,0 +1,57 @@
+main: fr.enderstevegamer.spleef.Main
+name: MiniGames
+description: A plugin that is used to control the spleef minigame of the server.
+author: Endersteve_gamer
+version: 1.0
+api-version: 1.19
+commands:
+  ready:
+    description: Use to confirm that you are ready to play. The game will start when all players are ready. Use again to cancel.
+    aliases: [rdy, go]
+    usage: /ready
+    permission: spleef.ready
+  forcestart:
+    description: Use to force the game to start. Op only.
+    aliases: fst
+    usage: /forcestart
+    permission: spleef.forcestart
+  endgame:
+    description: Use to end the game if it was started for debug. Op only
+    aliases: endgm
+    usage: /endgame
+    permission: spleef.endgame
+  rebuild:
+    description: Use to rebuild the arena
+    aliases: rbld
+    usage: /rebuild
+    permission: spleef.rebuild
+  setgamemode:
+    description: Use to select the gamemode for the Spleef. Op only
+    aliases: sg
+    usage: /selectgamemode <Gamemode>
+    permission: spleef.selectgamemode
+  spectate:
+    description: Use to spectate the game
+    aliases: spct
+    usage: /spectate
+    permission: spleef.spectate
+
+permissions:
+    spleef.forcestart:
+        description: Permission to use the /forcestart command.
+        default: op
+    spleef.endgame:
+        description: Permission to use the /endgame command.
+        default: op
+    spleef.rebuild:
+        description: Permission to use the /rebuild command.
+        default: op
+    spleef.ready:
+        description: Permission to use the /ready command.
+        default: true
+    spleef.selectgamemode:
+        description: Permission to use the /selectgamemode command.
+        default: op
+    spleef.spectate:
+        description: Permission to use the /spectate command.
+        default: true
