@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.time.Instant;
+
 public class JoinParkour extends BukkitRunnable {
     @Override
     public void run() {
@@ -27,6 +29,9 @@ public class JoinParkour extends BukkitRunnable {
                     Location parkourStart = new Location(player.getWorld(), 0.5, 61, 22.5);
                     parkourStart.setDirection(new Vector(0, 0, 1));
                     Main.getPlayerSpawns().put(player.getUniqueId(), parkourStart);
+
+                    // Set start time to now
+                    Main.getParkourStartTimes().put(player.getUniqueId(), Instant.now());
                 }
             }
         }

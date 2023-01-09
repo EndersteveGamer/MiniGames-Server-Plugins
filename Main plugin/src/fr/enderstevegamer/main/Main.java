@@ -8,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -23,11 +25,14 @@ public class Main extends JavaPlugin {
     public static FeedPlayers feedPlayers;
     public static JoinParkour joinParkour;
     public static AnnounceFinishedParkour announceFinishedParkour;
+    public static DisplayParkourTime displayParkourTime;
 
     // Declare HashMaps
     public static HashMap<UUID, Location> playerSpawns;
     public static HashMap<UUID, Boolean> isInParkour;
     public static HashMap<UUID, Boolean> finishedParkour;
+    public static HashMap<UUID, Instant> parkourStartTimes;
+    public static HashMap<UUID, Duration> parkourBestTimes;
 
     @Override
     public void onEnable() {
@@ -61,6 +66,7 @@ public class Main extends JavaPlugin {
         feedPlayers = new FeedPlayers();
         joinParkour = new JoinParkour();
         announceFinishedParkour = new AnnounceFinishedParkour();
+        displayParkourTime = new DisplayParkourTime();
 
         // Run loops
         clearFire.runTaskTimer(this, 0, 0);
@@ -71,11 +77,14 @@ public class Main extends JavaPlugin {
         feedPlayers.runTaskTimer(this, 0, 0);
         joinParkour.runTaskTimer(this, 0, 0);
         announceFinishedParkour.runTaskTimer(this, 0, 0);
+        displayParkourTime.runTaskTimer(this, 0, 0);
 
         // Define HashMaps
         playerSpawns = new HashMap<>();
         isInParkour = new HashMap<>();
         finishedParkour = new HashMap<>();
+        parkourStartTimes = new HashMap<>();
+        parkourBestTimes = new HashMap<>();
     }
 
     @Override
@@ -95,5 +104,11 @@ public class Main extends JavaPlugin {
     }
     public static HashMap<UUID, Boolean> getFinishedParkour() {
         return finishedParkour;
+    }
+    public static HashMap<UUID, Instant> getParkourStartTimes() {
+        return parkourStartTimes;
+    }
+    public static HashMap<UUID, Duration> getParkourBestTimes() {
+        return parkourBestTimes;
     }
 }

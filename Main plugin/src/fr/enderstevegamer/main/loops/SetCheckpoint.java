@@ -8,6 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.Instant;
+
 public class SetCheckpoint extends BukkitRunnable {
     @Override
     public void run() {
@@ -19,12 +21,11 @@ public class SetCheckpoint extends BukkitRunnable {
                 loc.setDirection(player.getLocation().getDirection());
                 Main.getPlayerSpawns().put(player.getUniqueId(), loc);
 
-                // Set is in parkour to true
-                if (!Main.getIsInParkour().get(player.getUniqueId())) {
-                    Main.getIsInParkour().put(player.getUniqueId(), true);
-
-                    // Send message
-                    player.sendMessage(ChatColor.GOLD + "You joined the parkour!");
+                // Check if this is the start checkpoint
+                Location parkourStart = new Location(player.getWorld(), 0, 61, 22);
+                if (player.getLocation().getBlock().getLocation().equals(parkourStart)) {
+                    // Set start time to now
+                    Main.getParkourStartTimes().put(player.getUniqueId(), Instant.now());
                 }
             }
         }

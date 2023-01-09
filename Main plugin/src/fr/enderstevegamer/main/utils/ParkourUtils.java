@@ -1,6 +1,8 @@
 package fr.enderstevegamer.main.utils;
 
 import fr.enderstevegamer.main.Main;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +75,12 @@ public class ParkourUtils {
 
         // Set parkour as not finished
         Main.getFinishedParkour().put(player.getUniqueId(), false);
+
+        // Delete parkour start time
+        Main.getParkourStartTimes().remove(player.getUniqueId());
+
+        // Reset actionbar title
+        sendActionbar(player, "");
     }
 
     public static void giveParkourReward(Player player) {
@@ -100,5 +109,29 @@ public class ParkourUtils {
         if (!isInit) {
             init();
         }
+    }
+
+    public static void sendActionbar(Player player, String message) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+    }
+
+    public static String formatDuration(Duration duration) {
+        String seconds = formatTimeWithZeros(String.valueOf(duration.toSecondsPart()), 2);
+        String millis = formatTimeWithZeros(String.valueOf(duration.toMillisPart()), 3);
+        return String.format(duration.toMinutes() + ":" + seconds + "." + millis);
+    }
+
+    public static String formatDuration(Duration duration, ChatColor textColor, ChatColor timeColor) {
+        String seconds = formatTimeWithZeros(String.valueOf(duration.toSecondsPart()), 2);
+        String millis = formatTimeWithZeros(String.valueOf(duration.toMillisPart()), 3);
+        return String.format(timeColor + "" + duration.toMinutes() + textColor + ":" + timeColor + seconds + textColor + "." + timeColor + millis);
+    }
+
+    public static String formatTimeWithZeros(String string, int digits) {
+        StringBuilder sb = new StringBuilder(string);
+        while (sb.length() < digits) {
+            sb.insert(0, "0");
+        }
+        return sb.toString();
     }
 }
