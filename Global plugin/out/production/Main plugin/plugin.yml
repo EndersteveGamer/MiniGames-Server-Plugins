@@ -1,0 +1,12 @@
+main: fr.enderstevegamer.main.Main
+name: MiniGamesMain
+description: The main plugin of the mini-games server.
+author: Endersteve_gamer
+version: 1.0
+api-version: 1.19
+commands:
+  spleef:
+    description: Use to join a spleef game
+    aliases: [spf, surispleef]
+    usage: /spleef
+    default: true

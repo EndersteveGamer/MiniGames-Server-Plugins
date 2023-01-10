@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="MainPlugin:jar">
     <output-path>$PROJECT_DIR$/../../../../Mods et serveurs Minecraft/serveurs/Serveur Mini-Jeux/local/templates/Lobby/default/plugins</output-path>
     <root id="archive" name="MainPlugin.jar">
-      <element id="module-output" name="Main plugin" />
+      <element id="module-output" name="Global Plugin" />
       <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
     </root>
   </artifact>

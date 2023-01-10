@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Global Plugin:jar">
+    <output-path>$PROJECT_DIR$/../../../../Mods et serveurs Minecraft/serveurs/Serveur Mini-Jeux/local/templates/Proxy/default/plugins</output-path>
+    <root id="archive" name="Global Plugin.jar">
+      <element id="module-output" name="Global Plugin" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
+    </root>
+  </artifact>
+</component>
