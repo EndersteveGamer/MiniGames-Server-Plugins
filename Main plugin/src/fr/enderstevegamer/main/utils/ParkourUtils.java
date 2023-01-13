@@ -14,6 +14,7 @@ import org.bukkit.util.Vector;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -139,8 +140,56 @@ public class ParkourUtils {
 
     public static void displayParkourBestTimes(Player player) {
         player.sendMessage("Best times for the parkour:");
-        for (UUID uuid : Main.getParkourBestTimes().keySet()) {
-            player.sendMessage(Bukkit.getOfflinePlayer(uuid).getName() + ": " + ParkourUtils.formatDuration(Main.getParkourBestTimes().get(uuid)));
+        HashMap<Integer, ParkourTime> times = sortParkourBestTimes(Main.getParkourBestTimes());
+        String color;
+        for (int i = 0; i < 10 && i < times.size(); i++) {
+            switch (i) {
+                case 0 -> color = ChatColor.GOLD + "";
+                case 1 -> color = ChatColor.GRAY + "";
+                case 2 ->color = ChatColor.DARK_GRAY + "";
+                default -> color = ChatColor.WHITE + "";
+            }
+            player.sendMessage(color + (i + 1) + ". " +
+                    Bukkit.getOfflinePlayer(times.get(i).getUuid()).getName() + ": " + ParkourUtils.formatDuration(times.get(i).getDuration()));
         }
+    }
+
+    public static class ParkourTime {
+        public Duration duration;
+        public UUID uuid;
+
+        public ParkourTime(Duration duration, UUID uuid) {
+            this.duration = duration;
+            this.uuid = uuid;
+        }
+
+        public Duration getDuration() {
+            return duration;
+        }
+
+        public UUID getUuid() {
+            return uuid;
+        }
+    }
+
+    public static HashMap<Integer, ParkourTime> sortParkourBestTimes(HashMap<UUID, Duration> originalHashMap) {
+        HashMap<UUID, Duration> hashMap = new HashMap<>(originalHashMap);
+        HashMap<Integer, ParkourTime> sortedHashMap = new HashMap<>();
+        int i = 0;
+        while (hashMap.size() > 0) {
+            Duration lowestDuration = Duration.ofMillis(Long.MAX_VALUE);
+            UUID lowestUUID = null;
+            for (UUID uuid : hashMap.keySet()) {
+                Duration duration = hashMap.get(uuid);
+                if (duration.compareTo(lowestDuration) < 0) {
+                    lowestDuration = duration;
+                    lowestUUID = uuid;
+                }
+            }
+            hashMap.remove(lowestUUID);
+            sortedHashMap.put(i, new ParkourTime(lowestDuration, lowestUUID));
+            i++;
+        }
+        return sortedHashMap;
     }
 }

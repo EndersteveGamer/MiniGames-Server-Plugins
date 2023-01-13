@@ -49,8 +49,8 @@ public class GlobalCommunicationUtils implements PluginMessageListener {
                     if (playerSend != null) {
                         ParkourUtils.displayParkourBestTimes(playerSend);
                     }
-                    Main.getWaitingForParkourBestTimes().remove(uuid);
                 }
+                Main.getWaitingForParkourBestTimes().clear();
             }
         }
     }

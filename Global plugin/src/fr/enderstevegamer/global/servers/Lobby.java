@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class Lobby {
     // Declare HashMap
-    public static HashMap<UUID, Duration> parkourBestTimes;
+    public HashMap<UUID, Duration> parkourBestTimes;
 
     public Lobby() {
         parkourBestTimes = new HashMap<>();
@@ -56,7 +56,10 @@ public class Lobby {
         player.getServer().sendData("endersteve:lobby", out.toByteArray());
     }
 
-    public static HashMap<UUID, Duration> getParkourBestTimes() {
+    public HashMap<UUID, Duration> getParkourBestTimes() {
         return parkourBestTimes;
+    }
+    public void setParkourBestTimes(HashMap<UUID, Duration> parkourBestTimes) {
+        this.parkourBestTimes = parkourBestTimes;
     }
 }
