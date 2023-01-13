@@ -1,6 +1,7 @@
 package fr.enderstevegamer.main.loops;
 
 import fr.enderstevegamer.main.Main;
+import fr.enderstevegamer.main.utils.GlobalCommunicationUtils;
 import fr.enderstevegamer.main.utils.ParkourUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,8 +26,11 @@ public class AnnounceFinishedParkour extends BukkitRunnable {
                 Instant end = Instant.now();
                 Duration duration = Duration.between(start, end);
                 String time = ParkourUtils.formatDuration(duration, ChatColor.GOLD, ChatColor.GREEN);
-                Bukkit.broadcastMessage(ChatColor.GOLD + player.getDisplayName() + " finished the parkour in " + time + "!");
+                Bukkit.broadcastMessage(ChatColor.GOLD + player.getDisplayName() + " finished the parkour in " + time + ChatColor.GOLD + "!");
                 ParkourUtils.giveParkourReward(player);
+
+                // Send new time to global plugin
+                GlobalCommunicationUtils.sendParkourBestTime(player, player.getUniqueId(), duration);
 
                 // Set actionbar title
                 ParkourUtils.sendActionbar(player, ChatColor.GOLD + "You finished the parkour in " + time + ChatColor.GOLD + "!");

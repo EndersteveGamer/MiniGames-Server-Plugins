@@ -3,6 +3,7 @@ package fr.enderstevegamer.main.utils;
 import fr.enderstevegamer.main.Main;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ import org.bukkit.util.Vector;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ParkourUtils {
     public static ArrayList<Integer> PARKOURSLOTS;
@@ -133,5 +135,12 @@ public class ParkourUtils {
             sb.insert(0, "0");
         }
         return sb.toString();
+    }
+
+    public static void displayParkourBestTimes(Player player) {
+        player.sendMessage("Best times for the parkour:");
+        for (UUID uuid : Main.getParkourBestTimes().keySet()) {
+            player.sendMessage(Bukkit.getOfflinePlayer(uuid).getName() + ": " + ParkourUtils.formatDuration(Main.getParkourBestTimes().get(uuid)));
+        }
     }
 }

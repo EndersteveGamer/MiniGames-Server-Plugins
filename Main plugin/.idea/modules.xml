@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Global Plugin.iml" filepath="$PROJECT_DIR$/Global Plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MainPlugin.iml" filepath="$PROJECT_DIR$/MainPlugin.iml" />
     </modules>
   </component>
 </project>

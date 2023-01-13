@@ -1,8 +1,10 @@
 package fr.enderstevegamer.main;
 
+import fr.enderstevegamer.main.commands.BestParkourTimes;
 import fr.enderstevegamer.main.commands.Spleef;
 import fr.enderstevegamer.main.listeners.*;
 import fr.enderstevegamer.main.loops.*;
+import fr.enderstevegamer.main.utils.GlobalCommunicationUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -34,6 +37,8 @@ public class Main extends JavaPlugin {
     public static HashMap<UUID, Instant> parkourStartTimes;
     public static HashMap<UUID, Duration> parkourBestTimes;
 
+    public static ArrayList<UUID> waitingForParkourBestTimes;
+
     @Override
     public void onEnable() {
         Bukkit.getLogger().info(ChatColor.GREEN + "Main plugin loaded successfully!");
@@ -42,10 +47,13 @@ public class Main extends JavaPlugin {
         INSTANCE = this;
 
         // Register channel
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        INSTANCE.getServer().getMessenger().registerIncomingPluginChannel(INSTANCE, "endersteve:lobby", new GlobalCommunicationUtils());
+        INSTANCE.getServer().getMessenger().registerOutgoingPluginChannel(INSTANCE, "endersteve:lobby");
+        INSTANCE.getServer().getMessenger().registerOutgoingPluginChannel(INSTANCE, "BungeeCord");
 
         // Register commands
         getCommand("spleef").setExecutor(new Spleef());
+        getCommand("bestparkourtimes").setExecutor(new BestParkourTimes());
 
         // Register listeners
         Bukkit.getServer().getPluginManager().registerEvents(new OnEntityDamage(), this);
@@ -85,6 +93,7 @@ public class Main extends JavaPlugin {
         finishedParkour = new HashMap<>();
         parkourStartTimes = new HashMap<>();
         parkourBestTimes = new HashMap<>();
+        waitingForParkourBestTimes = new ArrayList<>();
     }
 
     @Override
@@ -110,5 +119,11 @@ public class Main extends JavaPlugin {
     }
     public static HashMap<UUID, Duration> getParkourBestTimes() {
         return parkourBestTimes;
+    }
+    public static void setParkourBestTimes(HashMap<UUID, Duration> parkourBestTimes) {
+        Main.parkourBestTimes = parkourBestTimes;
+    }
+    public static ArrayList<UUID> getWaitingForParkourBestTimes() {
+        return waitingForParkourBestTimes;
     }
 }

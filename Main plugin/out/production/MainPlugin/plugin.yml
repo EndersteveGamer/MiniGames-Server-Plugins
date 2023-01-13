@@ -1,0 +1,17 @@
+main: fr.enderstevegamer.main.Main
+name: MiniGamesMain
+description: The plugin used in the lobby of the server.
+author: Endersteve_gamer
+version: 1.0
+api-version: 1.19
+commands:
+  spleef:
+    description: Use to join a spleef game
+    aliases: [spf, surispleef]
+    usage: /spleef
+    default: true
+  bestparkourtimes:
+    description: Sends you the best parkour times of the players
+    aliases: bptimes
+    usage: /bestparkourtimes
+    default: true
