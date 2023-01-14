@@ -27,7 +27,7 @@ public class OnSnowballThrow implements Listener {
                     assert meta != null;
                     meta.setDisplayName(ChatColor.GOLD + "Snowball");
                     snowballItem.setItemMeta(meta);
-                    if (!Main.getCurrentGamemode().equals(SpleefMode.SNOWBALL_ONLY)) {
+                    if (!Main.getCurrentGamemode().equals(SpleefMode.SNOWBALL_ONLY) && !Main.getCurrentGamemode().equals(SpleefMode.SUDDEN_DEATH)) {
                         player.getInventory().setItem(1, snowballItem);
                     }
                     else {

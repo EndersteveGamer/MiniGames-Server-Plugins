@@ -24,7 +24,6 @@ public class GiveItemsOnStart extends BukkitRunnable {
                                 SpleefUtils.giveItems(player);
                             }
                         }.runTaskLater(Main.getPlugin(Main.class), 60);
-                        player.sendMessage(ChatColor.RED + "You will get your items in 3 seconds!");
                     }
                 }
             }

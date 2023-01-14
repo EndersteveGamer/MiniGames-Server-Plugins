@@ -113,6 +113,13 @@ public class SpleefUtils {
         // Reset game time
         Main.setGameTime(0);
 
+        if (Main.getCurrentGamemode().equals(SpleefMode.SUDDEN_DEATH)) {
+            for (UUID uuid : Main.getPlayersAlive()) {
+                Player player = Bukkit.getPlayer(uuid);
+                player.sendMessage(ChatColor.RED + "You will get your items in 3 seconds!");
+            }
+        }
+
         // Set game started
         Main.setGameStarted(true);
     }
