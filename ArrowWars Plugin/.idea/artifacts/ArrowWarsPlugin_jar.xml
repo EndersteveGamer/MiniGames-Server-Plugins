@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="ArrowWarsPlugin:jar">
+    <output-path>$PROJECT_DIR$/../../../../Mods et serveurs Minecraft/serveurs/Serveur Mini-Jeux/local/templates/ArrowWars/default/plugins</output-path>
+    <root id="archive" name="ArrowWarsPlugin.jar">
+      <element id="module-output" name="ArrowWars Plugin" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
+    </root>
+  </artifact>
+</component>

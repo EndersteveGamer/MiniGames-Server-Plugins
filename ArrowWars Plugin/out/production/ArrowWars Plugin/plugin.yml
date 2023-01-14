@@ -1,0 +1,33 @@
+main: fr.enderstevegamer.arrowwars.Main
+name: ArrowWarsPlugin
+description: The plugin used for the Arrow Wars minigame.
+author: Endersteve_gamer
+version: 1.0
+api-version: 1.19
+commands:
+  ready:
+    description: Ready up for the game
+    usage: /ready
+    aliases: [rdy, go]
+    permission: arrowwars.ready
+  spectate:
+    description: Spectate the game
+    usage: /spectate
+    aliases: [spec, spect]
+    permission: arrowwars.spectate
+  forcestart:
+    description: Force start the game
+    usage: /forcestart
+    aliases: [fs, start]
+    permission: arrowwars.forcestart
+
+permissions:
+    arrowwars.ready:
+        default: true
+        description: Permission to ready up for the game
+    arrowwars.spectate:
+        default: true
+        description: Permission to spectate the game
+    arrowwars.forcestart:
+        default: op
+        description: Permission to force start the game

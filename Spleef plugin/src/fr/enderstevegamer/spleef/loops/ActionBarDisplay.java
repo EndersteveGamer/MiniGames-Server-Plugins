@@ -30,7 +30,7 @@ public class ActionBarDisplay extends BukkitRunnable {
                         SpleefUtils.sendActionBar(player, ChatColor.GREEN + "You are ready!");
                     }
                     else {
-                        SpleefUtils.sendActionBar(player, ChatColor.GREEN + "You are ready! " + ChatColor.GOLD + "|" + ChatColor.GREEN + " Starting in " + ChatColor.GOLD + SpleefUtils.round(Main.getStartTimer(), 0));
+                        SpleefUtils.sendActionBar(player, ChatColor.GREEN + "You are ready! " + ChatColor.GOLD + "|" + ChatColor.GREEN + " Starting in " + ChatColor.GOLD + (int) SpleefUtils.round(Main.getStartTimer(), 0));
                     }
                 }
                 else if (!Main.getPlayersSpectating().contains(player.getUniqueId())) {
@@ -38,7 +38,7 @@ public class ActionBarDisplay extends BukkitRunnable {
                         SpleefUtils.sendActionBar(player, ChatColor.RED + "You are not ready!");
                     }
                     else {
-                        SpleefUtils.sendActionBar(player, ChatColor.RED + "You are not ready! " + ChatColor.GOLD + "|" + ChatColor.RED + " Starting in " + ChatColor.GOLD + SpleefUtils.round(Main.getStartTimer(), 0));
+                        SpleefUtils.sendActionBar(player, ChatColor.RED + "You are not ready! " + ChatColor.GOLD + "|" + ChatColor.RED + " Starting in " + ChatColor.GOLD + (int) SpleefUtils.round(Main.getStartTimer(), 0));
                     }
                 }
                 else {
@@ -46,7 +46,7 @@ public class ActionBarDisplay extends BukkitRunnable {
                         SpleefUtils.sendActionBar(player, ChatColor.GRAY + "You are spectating!");
                     }
                     else {
-                        SpleefUtils.sendActionBar(player, ChatColor.GRAY + "You are spectating! " + ChatColor.GOLD + "|" + ChatColor.GRAY + " Starting in " + ChatColor.GOLD + SpleefUtils.round(Main.getStartTimer(), 0));
+                        SpleefUtils.sendActionBar(player, ChatColor.GRAY + "You are spectating! " + ChatColor.GOLD + "|" + ChatColor.GRAY + " Starting in " + ChatColor.GOLD + (int) SpleefUtils.round(Main.getStartTimer(), 0));
                     }
                 }
             }

@@ -32,7 +32,7 @@ commands:
     permission: spleef.selectgamemode
   spectate:
     description: Use to spectate the game
-    aliases: spct
+    aliases: [spect, spec]
     usage: /spectate
     permission: spleef.spectate
 
