@@ -23,7 +23,7 @@ public class SpleefUtils {
         // Get current gamemode
         String gamemode = Main.getCurrentGamemode();
 
-        if (!gamemode.equals(SpleefMode.SNOWBALL_ONLY)) {
+        if (!gamemode.equals(SpleefMode.SNOWBALL_ONLY) && !gamemode.equals(SpleefMode.SUDDEN_DEATH)) {
             // Give shovel
             ItemStack shovel = new ItemStack(Material.NETHERITE_SHOVEL);
             ItemMeta meta = shovel.getItemMeta();
@@ -43,7 +43,7 @@ public class SpleefUtils {
             meta2.setDisplayName(ChatColor.GOLD + "Snowball");
             meta2.setLore(List.of("An infinite amount of snowballs"));
             snowballs.setItemMeta(meta2);
-            if (gamemode.equals(SpleefMode.SNOWBALL_ONLY)) {
+            if (gamemode.equals(SpleefMode.SNOWBALL_ONLY) || gamemode.equals(SpleefMode.SUDDEN_DEATH)) {
                 inv.setItem(0, snowballs);
             } else {
                 inv.setItem(1, snowballs);
