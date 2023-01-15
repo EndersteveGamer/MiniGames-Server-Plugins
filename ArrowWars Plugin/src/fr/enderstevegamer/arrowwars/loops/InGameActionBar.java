@@ -12,7 +12,7 @@ public class InGameActionBar extends BukkitRunnable {
     public void run() {
         if (!Main.isGameStarted() || Main.isAnnouncingResults()) return;
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (ArrowWarsUtils.round(10 - Main.getGameTime(), 1) <= 10) {
+            if (ArrowWarsUtils.round(10 - Main.getGameTime(), 1) >= 0) {
                 ArrowWarsUtils.sendActionbarTitle(player, ChatColor.RED + "Starting in " + ChatColor.GOLD + ArrowWarsUtils.round(10 - Main.getGameTime(), 1));
             } else {
                 if (Main.getRedTeam().contains(player.getUniqueId()) || Main.getBlueTeam().contains(player.getUniqueId())) {

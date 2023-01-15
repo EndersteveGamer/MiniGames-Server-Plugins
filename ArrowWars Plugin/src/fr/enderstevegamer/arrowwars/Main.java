@@ -5,10 +5,8 @@ import fr.enderstevegamer.arrowwars.commands.Ready;
 import fr.enderstevegamer.arrowwars.commands.Spectate;
 import fr.enderstevegamer.arrowwars.listeners.OnBlockBreak;
 import fr.enderstevegamer.arrowwars.listeners.OnPlayerJoin;
-import fr.enderstevegamer.arrowwars.loops.CheckAllReady;
-import fr.enderstevegamer.arrowwars.loops.InGameActionBar;
-import fr.enderstevegamer.arrowwars.loops.KillPlayersAtBottom;
-import fr.enderstevegamer.arrowwars.loops.ReadyActionbar;
+import fr.enderstevegamer.arrowwars.loops.*;
+import fr.enderstevegamer.arrowwars.utils.ArrowWarsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,10 +17,12 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Main extends JavaPlugin {
+    public static Main INSTANCE;
     public static boolean gameStarted = false;
     public static boolean announcingResults = false;
     public static float timeBeforeStart = 30;
     public static float gameTime = 0;
+    public static String teamTurn = ArrowWarsUtils.Teams.RED;
 
     // Declare HashMaps
     public static HashMap<UUID, Boolean> playersReady;
@@ -37,9 +37,13 @@ public class Main extends JavaPlugin {
     public static CheckAllReady checkAllReady;
     public static KillPlayersAtBottom killPlayersAtBottom;
     public static InGameActionBar inGameActionBar;
+    public static InGameLoop inGameLoop;
+    public static GiveNightVision giveNightVision;
 
     @Override
     public void onEnable() {
+        INSTANCE = this;
+
         // Define HashMaps
         playersReady = new HashMap<>();
         playersSpectating = new HashMap<>();
@@ -62,12 +66,16 @@ public class Main extends JavaPlugin {
         checkAllReady = new CheckAllReady();
         killPlayersAtBottom = new KillPlayersAtBottom();
         inGameActionBar = new InGameActionBar();
+        inGameLoop = new InGameLoop();
+        giveNightVision = new GiveNightVision();
 
         // Run loops
         readyActionbar.runTaskTimer(this, 0, 0);
         checkAllReady.runTaskTimer(this, 0, 0);
         killPlayersAtBottom.runTaskTimer(this, 0, 0);
         inGameActionBar.runTaskTimer(this, 0, 0);
+        inGameLoop.runTaskTimer(this, 0, 0);
+        giveNightVision.runTaskTimer(this, 0, 0);
 
         // Confirm loaded
         Bukkit.getLogger().info("ArrowWars plugin loaded successfully!");
@@ -86,6 +94,10 @@ public class Main extends JavaPlugin {
         location.setPitch(0);
 
         return location;
+    }
+
+    public static JavaPlugin getInstance() {
+        return INSTANCE;
     }
 
     public static boolean isGameStarted() {
@@ -134,5 +146,13 @@ public class Main extends JavaPlugin {
 
     public static void setGameTime(float gameTime) {
         Main.gameTime = gameTime;
+    }
+
+    public static String getTeamTurn() {
+        return teamTurn;
+    }
+
+    public static void setTeamTurn(String teamTurn) {
+        Main.teamTurn = teamTurn;
     }
 }

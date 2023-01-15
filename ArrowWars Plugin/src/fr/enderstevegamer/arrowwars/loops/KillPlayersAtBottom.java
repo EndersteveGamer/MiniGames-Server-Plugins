@@ -11,6 +11,7 @@ public class KillPlayersAtBottom extends BukkitRunnable {
     public void run() {
         if (!Main.isGameStarted()) return;
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (!Main.getBlueTeam().contains(player.getUniqueId()) && !Main.getRedTeam().contains(player.getUniqueId())) continue;
             if (player.getLocation().getY() <= -29) {
                 ArrowWarsUtils.killPlayer(player, true,null);
             }

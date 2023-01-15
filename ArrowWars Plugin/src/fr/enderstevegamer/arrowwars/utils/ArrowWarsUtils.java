@@ -3,12 +3,13 @@ package fr.enderstevegamer.arrowwars.utils;
 import fr.enderstevegamer.arrowwars.Main;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -69,6 +70,20 @@ public class ArrowWarsUtils {
         Main.setAnnouncingResults(false);
         Main.setGameTime(0);
 
+        // Set the starting team to random
+        Main.setTeamTurn((Math.random() < 0.5) ? Teams.RED : Teams.BLUE);
+
+        // Announce who starts
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (Main.getTeamTurn().equals(Teams.RED)) {
+                player.sendMessage(ChatColor.RED + "The red team starts!");
+            }
+            else {
+                player.sendMessage(ChatColor.BLUE + "The blue team starts!");
+            }
+        }
+
+        // Set spectators to gamemode spectator
         for (UUID uuid : Main.getPlayersSpectating().keySet()) {
             if (Main.getPlayersSpectating().get(uuid)) {
                 Bukkit.getPlayer(uuid).setGameMode(GameMode.SPECTATOR);
@@ -160,5 +175,77 @@ public class ArrowWarsUtils {
         value = value * factor;
         long tmp = Math.round(value);
         return (float) tmp / factor;
+    }
+
+    public static void removeBarrierLine(int y) {
+        Location location = new Location(Bukkit.getWorld("world"), -2, y, 0);
+        for (int z = -3; z <= 21; z++) {
+            location.setZ(z);
+            Block block = location.getBlock();
+            block.setType(Material.AIR);
+        }
+    }
+
+    public static void removeBarrier() {
+        for (int i = 0; i <= 20; i++) {
+            int finalI = i;
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    removeBarrierLine(-12 - finalI);
+                };
+            }.runTaskLater(Main.getInstance(), i);
+        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                removeBarrierLine(-32);
+            }
+        }.runTaskLater(Main.getInstance(), 20);
+    }
+
+    public static void switchTurn() {
+        if (Main.getTeamTurn().equals(Teams.RED)) {
+            for (UUID uuid : Main.getRedTeam()) {
+                Player player = Bukkit.getPlayer(uuid);
+                player.sendMessage(ChatColor.RED + "Your turn is over!");
+                player.getInventory().clear();
+            }
+            Main.setTeamTurn(Teams.BLUE);
+            startTurn();
+        }
+        else {
+            for (UUID uuid : Main.getBlueTeam()) {
+                Player player = Bukkit.getPlayer(uuid);
+                player.sendMessage(ChatColor.RED + "Your turn is over!");
+                player.getInventory().clear();
+            }
+            Main.setTeamTurn(Teams.RED);
+            startTurn();
+        }
+    }
+
+    public static void startTurn() {
+        if (Main.getTeamTurn().equals(Teams.RED)) {
+            for (UUID uuid : Main.getRedTeam()) {
+                Player player = Bukkit.getPlayer(uuid);
+                player.sendMessage(ChatColor.GREEN + "It's your turn!");
+                player.getInventory().setItem(0, new ItemStack(Material.BOW));
+                player.getInventory().setItem(1, new ItemStack(Material.ARROW, 1));
+            }
+        }
+        else {
+            for (UUID uuid : Main.getBlueTeam()) {
+                Player player = Bukkit.getPlayer(uuid);
+                player.sendMessage(ChatColor.GREEN + "It's your turn!");
+                player.getInventory().setItem(0, new ItemStack(Material.BOW));
+                player.getInventory().setItem(1, new ItemStack(Material.ARROW, 1));
+            }
+        }
+    }
+
+    public static class Teams {
+        public static final String RED = ChatColor.RED + "Red";
+        public static final String BLUE = ChatColor.BLUE + "Blue";
     }
 }
