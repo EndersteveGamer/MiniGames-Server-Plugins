@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,7 +40,7 @@ public class OnInteract implements Listener {
                         tnt.setVelocity(arrow.getVelocity());
                         arrow.remove();
                     }
-                    case "arrowStick" -> {player.launchProjectile(Arrow.class);}
+                    case "arrowStick" -> player.launchProjectile(Arrow.class);
                 }
             }
         }

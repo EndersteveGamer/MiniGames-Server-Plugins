@@ -1,7 +1,6 @@
 package fr.enderstevegamer.main.listeners;
 
 import fr.enderstevegamer.main.Main;
-import fr.enderstevegamer.main.utils.ParkourUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;

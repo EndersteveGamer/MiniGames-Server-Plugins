@@ -3,7 +3,6 @@ package fr.enderstevegamer.main.utils;
 import fr.enderstevegamer.main.Main;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -150,13 +149,13 @@ public class ParkourUtils {
                 default -> color = ChatColor.WHITE + "";
             }
             player.sendMessage(color + (i + 1) + ". " +
-                    Bukkit.getOfflinePlayer(times.get(i).getUuid()).getName() + ": " + ParkourUtils.formatDuration(times.get(i).getDuration()));
+                    Main.getParkourBestTimesNames().get(times.get(i).getUuid()) + ": " + ParkourUtils.formatDuration(times.get(i).getDuration()));
         }
     }
 
     public static class ParkourTime {
-        public Duration duration;
-        public UUID uuid;
+        public final Duration duration;
+        public final UUID uuid;
 
         public ParkourTime(Duration duration, UUID uuid) {
             this.duration = duration;

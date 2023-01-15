@@ -67,6 +67,7 @@ public class ArrowWarsUtils {
     public static void startGame() {
         Main.setGameStarted(true);
         Main.setAnnouncingResults(false);
+        Main.setGameTime(0);
 
         for (UUID uuid : Main.getPlayersSpectating().keySet()) {
             if (Main.getPlayersSpectating().get(uuid)) {
@@ -150,5 +151,14 @@ public class ArrowWarsUtils {
             if (player1.getUniqueId().equals(player.getUniqueId())) continue;
             player1.sendMessage((naturalDeath) ? ChatColor.GOLD + player.getName() + ChatColor.RED + " fell off the map!" : ChatColor.GOLD + player.getName() + ChatColor.RED + " was killed by " + ChatColor.GOLD + killer.getName());
         }
+    }
+
+    public static float round(float value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (float) tmp / factor;
     }
 }

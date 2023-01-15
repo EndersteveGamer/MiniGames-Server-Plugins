@@ -33,6 +33,16 @@ public class GlobalCommunicationUtils implements PluginMessageListener {
         player.sendPluginMessage(Main.getInstance(), "endersteve:lobby", out.toByteArray());
     }
 
+    public static void sendPlayerLogin(Player player) {
+        final ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
+        out.writeUTF("PlayerLogin");
+        out.writeUTF(player.getUniqueId().toString());
+        out.writeUTF(player.getName());
+
+        player.sendPluginMessage(Main.getInstance(), "endersteve:lobby", out.toByteArray());
+    }
+
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
         if (!channel.equals("endersteve:lobby")) return;
@@ -41,6 +51,9 @@ public class GlobalCommunicationUtils implements PluginMessageListener {
         if (subChannel.equals("ParkourBestTimes") || subChannel.equals("UpdateParkourBestTimes")) {
             // Get the updated HashMap
             Main.setParkourBestTimes(fromString.hashMap(in.readUTF()));
+            String names = in.readUTF();
+            Bukkit.getLogger().warning(names);
+            Main.setParkourBestTimesNames(UUIDStringHashMap.fromString.hashMap(names));
 
             // Send the parkour best times if subchannel is UpdateParkourBestTimes
             if (subChannel.equals("UpdateParkourBestTimes")) {
@@ -89,6 +102,45 @@ public class GlobalCommunicationUtils implements PluginMessageListener {
                 result.put(UUID.fromString(keySplit[0]), Duration.parse(keySplit[1]));
             }
             return result;
+        }
+    }
+
+    public static class UUIDStringHashMap {
+        public static class toString {
+            public static String hashMapKey(HashMap<UUID, String> hashMap, UUID key) {
+                return key.toString() + ":" + hashMap.get(key);
+            }
+
+            public static String hashMap(HashMap<UUID, String> hashMap) {
+                ArrayList<String> keys = new ArrayList<>();
+                StringBuilder result = new StringBuilder();
+                for (UUID uuid : hashMap.keySet()) {
+                    keys.add(UUIDStringHashMap.toString.hashMapKey(hashMap, uuid));
+                }
+
+                for (int i = 0; i < keys.size(); i++) {
+                    if (i == keys.size() - 1) {
+                        result.append(keys.get(i));
+                    } else {
+                        result.append(keys.get(i)).append(";");
+                    }
+                }
+
+                return result.toString();
+            }
+        }
+
+        public static class fromString {
+            public static HashMap<UUID, String> hashMap(String string) {
+                if (string.equals("")) return new HashMap<>();
+                HashMap<UUID, String> result = new HashMap<>();
+                String[] keys = string.split(";");
+                for (String key : keys) {
+                    String[] keySplit = key.split(":");
+                    result.put(UUID.fromString(keySplit[0]), keySplit[1]);
+                }
+                return result;
+            }
         }
     }
 }

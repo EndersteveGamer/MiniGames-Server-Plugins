@@ -1,6 +1,7 @@
 package fr.enderstevegamer.main.listeners;
 
 import fr.enderstevegamer.main.Main;
+import fr.enderstevegamer.main.utils.GlobalCommunicationUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class OnJoin implements Listener {
@@ -34,5 +36,13 @@ public class OnJoin implements Listener {
 
         // Set parkour as not finished
         Main.getFinishedParkour().put(player.getUniqueId(), false);
+
+        // Send player login
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                GlobalCommunicationUtils.sendPlayerLogin(player);
+            }
+        }.runTaskLater(Main.getInstance(), 1);
     }
 }

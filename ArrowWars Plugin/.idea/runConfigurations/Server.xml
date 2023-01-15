@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Server" type="JarApplication">
+    <option name="JAR_PATH" value="$PROJECT_DIR$/../../../../Mods et serveurs Minecraft/serveurs/Serveur Mini-Jeux/launcher.jar" />
+    <option name="PROGRAM_PARAMETERS" value="XX:+UseG1GC XX:MaxGCPauseMillis=50 XX:+UnlockExperimentalVMOptions XX:+UseCompressedOops XX:-UseAdaptiveSizePolicy XX:CompileThreshold=100 Dfile.encoding=UTF-8 Xmx456M Xms256m jar" />
+    <option name="WORKING_DIRECTORY" value="C:\Users\theop\OneDrive\Bureau\Mods et serveurs Minecraft\serveurs\Serveur Mini-Jeux" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2" />
+  </configuration>
+</component>

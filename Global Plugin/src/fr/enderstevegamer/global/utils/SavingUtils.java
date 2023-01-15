@@ -1,11 +1,10 @@
-package fr.enderstevegamer.global.Utils;
+package fr.enderstevegamer.global.utils;
 
 import fr.enderstevegamer.global.Main;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 public class SavingUtils {
     public static class BestTimesHashMap {

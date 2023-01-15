@@ -36,6 +36,7 @@ public class Main extends JavaPlugin {
     public static HashMap<UUID, Boolean> finishedParkour;
     public static HashMap<UUID, Instant> parkourStartTimes;
     public static HashMap<UUID, Duration> parkourBestTimes;
+    public static HashMap<UUID, String> parkourBestTimesNames;
 
     public static ArrayList<UUID> waitingForParkourBestTimes;
 
@@ -125,5 +126,13 @@ public class Main extends JavaPlugin {
     }
     public static ArrayList<UUID> getWaitingForParkourBestTimes() {
         return waitingForParkourBestTimes;
+    }
+
+    public static HashMap<UUID, String> getParkourBestTimesNames() {
+        return parkourBestTimesNames;
+    }
+
+    public static void setParkourBestTimesNames(HashMap<UUID, String> parkourBestTimesNames) {
+        Main.parkourBestTimesNames = parkourBestTimesNames;
     }
 }

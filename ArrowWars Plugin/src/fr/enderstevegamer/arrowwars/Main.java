@@ -6,6 +6,7 @@ import fr.enderstevegamer.arrowwars.commands.Spectate;
 import fr.enderstevegamer.arrowwars.listeners.OnBlockBreak;
 import fr.enderstevegamer.arrowwars.listeners.OnPlayerJoin;
 import fr.enderstevegamer.arrowwars.loops.CheckAllReady;
+import fr.enderstevegamer.arrowwars.loops.InGameActionBar;
 import fr.enderstevegamer.arrowwars.loops.KillPlayersAtBottom;
 import fr.enderstevegamer.arrowwars.loops.ReadyActionbar;
 import org.bukkit.Bukkit;
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class Main extends JavaPlugin {
     public static boolean gameStarted = false;
     public static boolean announcingResults = false;
+    public static float timeBeforeStart = 30;
+    public static float gameTime = 0;
 
     // Declare HashMaps
     public static HashMap<UUID, Boolean> playersReady;
@@ -28,12 +31,13 @@ public class Main extends JavaPlugin {
     // Declare ArrayLists
     public static ArrayList<UUID> redTeam;
     public static ArrayList<UUID> blueTeam;
-    public static float timeBeforeStart = 30;
 
     // Declare loops
     public static ReadyActionbar readyActionbar;
     public static CheckAllReady checkAllReady;
     public static KillPlayersAtBottom killPlayersAtBottom;
+    public static InGameActionBar inGameActionBar;
+
     @Override
     public void onEnable() {
         // Define HashMaps
@@ -57,11 +61,13 @@ public class Main extends JavaPlugin {
         readyActionbar = new ReadyActionbar();
         checkAllReady = new CheckAllReady();
         killPlayersAtBottom = new KillPlayersAtBottom();
+        inGameActionBar = new InGameActionBar();
 
         // Run loops
         readyActionbar.runTaskTimer(this, 0, 0);
         checkAllReady.runTaskTimer(this, 0, 0);
         killPlayersAtBottom.runTaskTimer(this, 0, 0);
+        inGameActionBar.runTaskTimer(this, 0, 0);
 
         // Confirm loaded
         Bukkit.getLogger().info("ArrowWars plugin loaded successfully!");
@@ -120,5 +126,13 @@ public class Main extends JavaPlugin {
 
     public static ArrayList<UUID> getBlueTeam() {
         return blueTeam;
+    }
+
+    public static float getGameTime() {
+        return gameTime;
+    }
+
+    public static void setGameTime(float gameTime) {
+        Main.gameTime = gameTime;
     }
 }

@@ -116,7 +116,7 @@ public class SpleefUtils {
         if (Main.getCurrentGamemode().equals(SpleefMode.SUDDEN_DEATH)) {
             for (UUID uuid : Main.getPlayersAlive()) {
                 Player player = Bukkit.getPlayer(uuid);
-                player.sendMessage(ChatColor.RED + "You will get your items in 3 seconds!");
+                player.sendMessage(ChatColor.RED + "You will get your items 3 seconds after the start of the game!");
             }
         }
 
