@@ -14,8 +14,7 @@ public class CheckAllReady extends BukkitRunnable {
         else {
             Main.setTimeBeforeStart(30);
         }
-
-        if (Main.getTimeBeforeStart() <= 0 && ArrowWarsUtils.allPlayersReady()) {
+        if (Main.getTimeBeforeStart() <= 0 || ArrowWarsUtils.allPlayersReady()) {
             ArrowWarsUtils.startGame();
         }
     }

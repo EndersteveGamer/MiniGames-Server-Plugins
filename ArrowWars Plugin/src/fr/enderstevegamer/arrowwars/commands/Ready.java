@@ -12,7 +12,7 @@ public class Ready implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         // Handle not player and game already started
         if (!(commandSender instanceof Player player)) return false;
-        if (Main.isGameStarted()) {player.sendMessage(ChatColor.RED + "Game already started!"); return true;}
+        if (Main.isGameStarted() || Main.isAnnouncingResults()) {player.sendMessage(ChatColor.RED + "Game already started!"); return true;}
 
         // Set or remove ready
         if (Main.getPlayersReady().get(player.getUniqueId())) {

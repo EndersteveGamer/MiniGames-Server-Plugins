@@ -17,12 +17,13 @@ public class OnPlayerJoin implements Listener {
         if (Main.isGameStarted()) {
             player.sendMessage(ChatColor.RED + "Game already started!");
             player.setGameMode(GameMode.SPECTATOR);
+            Main.getPlayersSpectating().put(player.getUniqueId(), true);
+            Main.getPlayersReady().put(player.getUniqueId(), false);
         }
         else {
             player.setGameMode(GameMode.ADVENTURE);
+            Main.getPlayersReady().put(player.getUniqueId(), false);
+            Main.getPlayersSpectating().put(player.getUniqueId(), false);
         }
-
-        Main.getPlayersReady().put(player.getUniqueId(), false);
-        Main.getPlayersSpectating().put(player.getUniqueId(), false);
     }
 }

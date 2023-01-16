@@ -20,6 +20,11 @@ commands:
     usage: /forcestart
     aliases: [fs, start]
     permission: arrowwars.forcestart
+  endgame:
+    description: End the game
+    usage: /endgame
+    aliases: [eg, endgm]
+    permission: arrowwars.endgame
 
 permissions:
     arrowwars.ready:
@@ -31,3 +36,6 @@ permissions:
     arrowwars.forcestart:
         default: op
         description: Permission to force start the game
+    arrowwars.endgame:
+        default: op
+        description: Permission to end the game

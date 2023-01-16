@@ -1,5 +1,6 @@
 package fr.enderstevegamer.main;
 
+import fr.enderstevegamer.main.commands.ArrowWars;
 import fr.enderstevegamer.main.commands.BestParkourTimes;
 import fr.enderstevegamer.main.commands.Spleef;
 import fr.enderstevegamer.main.listeners.*;
@@ -55,6 +56,7 @@ public class Main extends JavaPlugin {
         // Register commands
         getCommand("spleef").setExecutor(new Spleef());
         getCommand("bestparkourtimes").setExecutor(new BestParkourTimes());
+        getCommand("arrowwars").setExecutor(new ArrowWars());
 
         // Register listeners
         Bukkit.getServer().getPluginManager().registerEvents(new OnEntityDamage(), this);

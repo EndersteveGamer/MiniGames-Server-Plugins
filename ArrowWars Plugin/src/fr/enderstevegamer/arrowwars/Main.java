@@ -1,10 +1,10 @@
 package fr.enderstevegamer.arrowwars;
 
+import fr.enderstevegamer.arrowwars.commands.EndGame;
 import fr.enderstevegamer.arrowwars.commands.ForceStart;
 import fr.enderstevegamer.arrowwars.commands.Ready;
 import fr.enderstevegamer.arrowwars.commands.Spectate;
-import fr.enderstevegamer.arrowwars.listeners.OnBlockBreak;
-import fr.enderstevegamer.arrowwars.listeners.OnPlayerJoin;
+import fr.enderstevegamer.arrowwars.listeners.*;
 import fr.enderstevegamer.arrowwars.loops.*;
 import fr.enderstevegamer.arrowwars.utils.ArrowWarsUtils;
 import org.bukkit.Bukkit;
@@ -23,6 +23,7 @@ public class Main extends JavaPlugin {
     public static float timeBeforeStart = 30;
     public static float gameTime = 0;
     public static String teamTurn = ArrowWarsUtils.Teams.RED;
+    public static boolean startedForDebug = false;
 
     // Declare HashMaps
     public static HashMap<UUID, Boolean> playersReady;
@@ -31,6 +32,7 @@ public class Main extends JavaPlugin {
     // Declare ArrayLists
     public static ArrayList<UUID> redTeam;
     public static ArrayList<UUID> blueTeam;
+    public static ArrayList<UUID> alreadyShot;
 
     // Declare loops
     public static ReadyActionbar readyActionbar;
@@ -39,6 +41,8 @@ public class Main extends JavaPlugin {
     public static InGameActionBar inGameActionBar;
     public static InGameLoop inGameLoop;
     public static GiveNightVision giveNightVision;
+    public static DeleteOutBoundsArrows deleteOutBoundsArrows;
+    public static EndTurn endTurn;
 
     @Override
     public void onEnable() {
@@ -51,15 +55,21 @@ public class Main extends JavaPlugin {
         // Define ArrayLists
         redTeam = new ArrayList<>();
         blueTeam = new ArrayList<>();
+        alreadyShot = new ArrayList<>();
 
         // Register listeners
         Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(), this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerLeave(), this);
         Bukkit.getPluginManager().registerEvents(new OnBlockBreak(), this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerDropItem(), this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerShootArrow(), this);
+        Bukkit.getPluginManager().registerEvents(new OnArrowLand(), this);
 
         // Register commands
         getCommand("ready").setExecutor(new Ready());
         getCommand("spectate").setExecutor(new Spectate());
         getCommand("forcestart").setExecutor(new ForceStart());
+        getCommand("endgame").setExecutor(new EndGame());
 
         // Define loops
         readyActionbar = new ReadyActionbar();
@@ -68,6 +78,8 @@ public class Main extends JavaPlugin {
         inGameActionBar = new InGameActionBar();
         inGameLoop = new InGameLoop();
         giveNightVision = new GiveNightVision();
+        deleteOutBoundsArrows = new DeleteOutBoundsArrows();
+        endTurn = new EndTurn();
 
         // Run loops
         readyActionbar.runTaskTimer(this, 0, 0);
@@ -76,6 +88,8 @@ public class Main extends JavaPlugin {
         inGameActionBar.runTaskTimer(this, 0, 0);
         inGameLoop.runTaskTimer(this, 0, 0);
         giveNightVision.runTaskTimer(this, 0, 0);
+        deleteOutBoundsArrows.runTaskTimer(this, 0, 0);
+        endTurn.runTaskTimer(this, 0, 0);
 
         // Confirm loaded
         Bukkit.getLogger().info("ArrowWars plugin loaded successfully!");
@@ -154,5 +168,17 @@ public class Main extends JavaPlugin {
 
     public static void setTeamTurn(String teamTurn) {
         Main.teamTurn = teamTurn;
+    }
+
+    public static ArrayList<UUID> getAlreadyShot() {
+        return alreadyShot;
+    }
+
+    public static boolean isStartedForDebug() {
+        return startedForDebug;
+    }
+
+    public static void setStartedForDebug(boolean startedForDebug) {
+        Main.startedForDebug = startedForDebug;
     }
 }

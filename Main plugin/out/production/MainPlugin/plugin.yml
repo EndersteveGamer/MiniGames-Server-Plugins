@@ -15,3 +15,8 @@ commands:
     aliases: bptimes
     usage: /bestparkourtimes
     default: true
+  arrowwars:
+    description: Use to join an Arrow Wars game
+    aliases: [aw, arwar]
+    usage: /arrowwars
+    default: true

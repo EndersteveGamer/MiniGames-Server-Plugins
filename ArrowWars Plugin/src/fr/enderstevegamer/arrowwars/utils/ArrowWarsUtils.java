@@ -5,11 +5,11 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -69,6 +69,12 @@ public class ArrowWarsUtils {
         Main.setGameStarted(true);
         Main.setAnnouncingResults(false);
         Main.setGameTime(0);
+        Main.getRedTeam().clear();
+        Main.getBlueTeam().clear();
+        Main.getAlreadyShot().clear();
+
+        // Build barrier
+        buildBarrier();
 
         // Set the starting team to random
         Main.setTeamTurn((Math.random() < 0.5) ? Teams.RED : Teams.BLUE);
@@ -141,17 +147,45 @@ public class ArrowWarsUtils {
 
     public static void endGame() {
         Main.setGameStarted(false);
-        Main.setAnnouncingResults(false);
+        Main.setAnnouncingResults(true);
         Main.setTimeBeforeStart(30);
-        Main.getRedTeam().clear();
-        Main.getBlueTeam().clear();
         Main.getPlayersSpectating().clear();
         Main.getPlayersReady().clear();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.setGameMode(GameMode.ADVENTURE);
-            player.teleport(Main.getLobbyLocation());
+            player.setGameMode(GameMode.SPECTATOR);
+            if (Main.getBlueTeam().size() == 0 && Main.getRedTeam().size() == 0) {
+                player.sendTitle(ChatColor.GOLD + "Game Over!", ChatColor.GOLD + "Nobody wins!", 10, 70, 20);
+            }
+            else if (Main.getBlueTeam().size() == 0) {
+                player.sendTitle(ChatColor.GOLD + "Game Over!", ChatColor.RED + "The red team wins!", 10, 70, 20);
+            }
+            else if (Main.getRedTeam().size() == 0) {
+                player.sendTitle(ChatColor.GOLD + "Game Over!", ChatColor.BLUE + "The blue team wins!", 10, 70, 20);
+            }
+            else {
+                player.sendTitle(ChatColor.GOLD + "Game Over!", ChatColor.GOLD + "Nobody wins!", 10, 70, 20);
+            }
         }
+
+        Main.getRedTeam().clear();
+        Main.getBlueTeam().clear();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    Main.getPlayersReady().put(player.getUniqueId(), false);
+                    Main.getPlayersSpectating().put(player.getUniqueId(), false);
+                    player.setGameMode(GameMode.ADVENTURE);
+                    player.teleport(Main.getLobbyLocation());
+                    Main.setAnnouncingResults(false);
+                    Main.setTimeBeforeStart(30);
+                    Main.setStartedForDebug(false);
+                    Main.setGameStarted(false);
+                }
+            }
+        }.runTaskLater(Main.getInstance(), 100);
     }
 
     public static void killPlayer(Player player, boolean announceDeath, Player killer) {
@@ -226,6 +260,7 @@ public class ArrowWarsUtils {
     }
 
     public static void startTurn() {
+        Main.getAlreadyShot().clear();
         if (Main.getTeamTurn().equals(Teams.RED)) {
             for (UUID uuid : Main.getRedTeam()) {
                 Player player = Bukkit.getPlayer(uuid);
@@ -247,5 +282,35 @@ public class ArrowWarsUtils {
     public static class Teams {
         public static final String RED = ChatColor.RED + "Red";
         public static final String BLUE = ChatColor.BLUE + "Blue";
+    }
+
+    public static boolean everybodyShot() {
+        if (Main.getTeamTurn().equals(Teams.RED)) {
+            for (UUID uuid : Main.getRedTeam()) {
+                if (!Main.getAlreadyShot().contains(uuid)) return false;
+            }
+        }
+        else {
+            for (UUID uuid : Main.getBlueTeam()) {
+                if (!Main.getAlreadyShot().contains(uuid)) return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean arrowsRemaining() {
+        return Bukkit.getWorld("world").getEntitiesByClass(Arrow.class).size() > 0;
+    }
+
+    public static void buildBarrier() {
+        Location location = new Location(Bukkit.getWorld("world"), -2, 0, 0);
+        for (int y = -32; y <= -12; y++) {
+            for (int z = -3; z <= 21; z++) {
+                location.setY(y);
+                location.setZ(z);
+                Block block = location.getBlock();
+                block.setType(Material.RED_STAINED_GLASS);
+            }
+        }
     }
 }
