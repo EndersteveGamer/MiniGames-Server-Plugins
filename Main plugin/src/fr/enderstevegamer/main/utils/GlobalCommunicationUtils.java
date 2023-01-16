@@ -52,7 +52,6 @@ public class GlobalCommunicationUtils implements PluginMessageListener {
             // Get the updated HashMap
             Main.setParkourBestTimes(fromString.hashMap(in.readUTF()));
             String names = in.readUTF();
-            Bukkit.getLogger().warning(names);
             Main.setParkourBestTimesNames(UUIDStringHashMap.fromString.hashMap(names));
 
             // Send the parkour best times if subchannel is UpdateParkourBestTimes

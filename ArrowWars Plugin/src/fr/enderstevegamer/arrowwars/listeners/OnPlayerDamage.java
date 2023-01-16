@@ -18,5 +18,7 @@ public class OnPlayerDamage implements Listener {
         if (!(arrow.getShooter() instanceof Player shooter)) return;
         shooter.playSound(shooter.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
         ArrowWarsUtils.killPlayer(player, true, shooter);
+        arrow.remove();
+        event.setCancelled(true);
     }
 }
