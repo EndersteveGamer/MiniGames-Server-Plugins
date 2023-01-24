@@ -1,6 +1,7 @@
 package fr.enderstevegamer.main.listeners;
 
 import fr.enderstevegamer.main.Main;
+import fr.enderstevegamer.main.utils.LobbyUtils;
 import fr.enderstevegamer.main.utils.ParkourUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -16,11 +17,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
 public class OnInteract implements Listener {
-    public static final int LEAPPOWER = 3;
     @EventHandler
     public static void onInteract(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
             Player player = event.getPlayer();
+
+            if (player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("gamemodeSelector")) {
+                player.openInventory(LobbyUtils.getSelectorInventory());
+            }
 
             // Parkour items
             if (player.getInventory().getItemInMainHand().getItemMeta() != null) {

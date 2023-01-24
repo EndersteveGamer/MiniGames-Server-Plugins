@@ -30,6 +30,7 @@ public class Main extends JavaPlugin {
     public static JoinParkour joinParkour;
     public static AnnounceFinishedParkour announceFinishedParkour;
     public static DisplayParkourTime displayParkourTime;
+    public static GiveGamemodeCompass giveGamemodeCompass;
 
     // Declare HashMaps
     public static HashMap<UUID, Location> playerSpawns;
@@ -67,6 +68,10 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new OnQuit(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new OnTNTExplode(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new OnArrowLand(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new OnItemDrop(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new OnInventoryInteract(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new OnInventoryClick(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new OnRecipeDiscover(), this);
 
         // Define loops
         clearFire = new ClearFire();
@@ -78,6 +83,7 @@ public class Main extends JavaPlugin {
         joinParkour = new JoinParkour();
         announceFinishedParkour = new AnnounceFinishedParkour();
         displayParkourTime = new DisplayParkourTime();
+        giveGamemodeCompass = new GiveGamemodeCompass();
 
         // Run loops
         clearFire.runTaskTimer(this, 0, 0);
@@ -89,6 +95,7 @@ public class Main extends JavaPlugin {
         joinParkour.runTaskTimer(this, 0, 0);
         announceFinishedParkour.runTaskTimer(this, 0, 0);
         displayParkourTime.runTaskTimer(this, 0, 0);
+        giveGamemodeCompass.runTaskTimer(this, 0, 0);
 
         // Define HashMaps
         playerSpawns = new HashMap<>();

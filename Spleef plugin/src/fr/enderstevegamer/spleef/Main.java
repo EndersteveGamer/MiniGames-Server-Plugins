@@ -52,6 +52,7 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new OnSnowballLand(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new OnPlayerMove(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new OnQuit(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new OnInventoryClick(), this);
 
         // Register commands
         getCommand("forcestart").setExecutor(new ForceStart());

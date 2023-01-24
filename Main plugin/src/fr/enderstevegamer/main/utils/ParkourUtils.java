@@ -104,7 +104,7 @@ public class ParkourUtils {
         }
 
         rewardItem.setItemMeta(meta);
-        player.getInventory().addItem(rewardItem);
+        player.getInventory().setItem(1, rewardItem);
     }
 
     public static void initIfNotInit() {

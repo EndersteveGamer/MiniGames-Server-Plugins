@@ -65,6 +65,7 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnPlayerShootArrow(), this);
         Bukkit.getPluginManager().registerEvents(new OnArrowLand(), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerDamage(), this);
+        Bukkit.getPluginManager().registerEvents(new OnInventoryClick(), this);
 
         // Register commands
         getCommand("ready").setExecutor(new Ready());

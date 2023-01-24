@@ -10,6 +10,7 @@ public class OnArrowLand implements Listener {
     @EventHandler
     public static void onArrowLand(ProjectileHitEvent event) {
         if (event.getHitEntity() != null) return;
+        if (event.getEntity().getShooter() == null) return;
         Player player = (Player) event.getEntity().getShooter();
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 1);
         event.getEntity().remove();
