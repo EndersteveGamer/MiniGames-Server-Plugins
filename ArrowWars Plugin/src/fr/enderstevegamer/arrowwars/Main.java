@@ -25,6 +25,8 @@ public class Main extends JavaPlugin {
     public static String teamTurn = ArrowWarsUtils.Teams.RED;
     public static boolean startedForDebug = false;
 
+    public static int round = 0;
+
     // Declare HashMaps
     public static HashMap<UUID, Boolean> playersReady;
     public static HashMap<UUID, Boolean> playersSpectating;
@@ -182,5 +184,13 @@ public class Main extends JavaPlugin {
 
     public static void setStartedForDebug(boolean startedForDebug) {
         Main.startedForDebug = startedForDebug;
+    }
+
+    public static int getRound() {
+        return round;
+    }
+
+    public static void setRound(int round) {
+        Main.round = round;
     }
 }

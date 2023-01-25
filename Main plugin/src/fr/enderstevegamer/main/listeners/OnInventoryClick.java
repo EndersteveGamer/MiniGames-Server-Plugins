@@ -11,7 +11,7 @@ public class OnInventoryClick implements Listener {
     @EventHandler
     public static void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
-        if (event.getClickedInventory() == null || !event.getClickedInventory().getType().equals(InventoryType.HOPPER)) {event.setCancelled(true); return;}
+        event.setCancelled(true);
         if (event.getCurrentItem() == null) return;
         LobbyUtils.sendPlayerToServer(player, event.getCurrentItem().getItemMeta().getLocalizedName());
     }

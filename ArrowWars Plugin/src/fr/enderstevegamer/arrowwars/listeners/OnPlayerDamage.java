@@ -1,5 +1,6 @@
 package fr.enderstevegamer.arrowwars.listeners;
 
+import fr.enderstevegamer.arrowwars.Main;
 import fr.enderstevegamer.arrowwars.utils.ArrowWarsUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
@@ -16,6 +17,7 @@ public class OnPlayerDamage implements Listener {
         if (!event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)) {event.setCancelled(true); return;}
         Arrow arrow = (Arrow) ((EntityDamageByEntityEvent) event).getDamager();
         if (!(arrow.getShooter() instanceof Player shooter)) return;
+        if ((Main.getBlueTeam().contains(player.getUniqueId()) && Main.getBlueTeam().contains(shooter.getUniqueId())) || (Main.getRedTeam().contains(player.getUniqueId()) && Main.getRedTeam().contains(shooter.getUniqueId()))) {event.setCancelled(true); return;}
         shooter.playSound(shooter.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 1);
         ArrowWarsUtils.killPlayer(player, true, shooter);

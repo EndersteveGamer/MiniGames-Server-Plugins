@@ -72,9 +72,13 @@ public class ArrowWarsUtils {
         Main.getRedTeam().clear();
         Main.getBlueTeam().clear();
         Main.getAlreadyShot().clear();
+        Main.setRound(0);
 
         // Build barrier
         buildBarrier();
+
+        // Build platforms
+        buildPlatforms();
 
         // Set the starting team to random
         Main.setTeamTurn((Math.random() < 0.5) ? Teams.RED : Teams.BLUE);
@@ -257,6 +261,15 @@ public class ArrowWarsUtils {
             Main.setTeamTurn(Teams.RED);
             startTurn();
         }
+        Main.setRound(Main.getRound() + 1);
+        if ((Main.getRound() - 1) % 4 == 0 && Main.getRound() > 2) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "The platforms will shrink next round!");
+            }
+        }
+        if (Main.getRound() % 4 == 0) {
+            shrinkPlatforms();
+        }
     }
 
     public static void startTurn() {
@@ -310,6 +323,65 @@ public class ArrowWarsUtils {
                 location.setZ(z);
                 Block block = location.getBlock();
                 block.setType(Material.RED_STAINED_GLASS);
+            }
+        }
+    }
+
+    public static void buildPlatforms() {
+        Location location = new Location(Bukkit.getWorld("world"), 6, -25, 2);
+        buildPlatformAtPosition(location);
+        location.setX(-18);
+        buildPlatformAtPosition(location);
+    }
+
+    public static void buildPlatformAtPosition(Location location) {
+        Block block = location.getBlock();
+        fillBlock(block.getLocation(), block.getRelative(8, 0, 14).getLocation(), Material.RED_CONCRETE);
+        fillBlock(block.getRelative(1, 0, 2).getLocation(), block.getRelative(7, 0, 12).getLocation(), Material.ORANGE_CONCRETE);
+        fillBlock(block.getRelative(2, 0, 4).getLocation(), block.getRelative(6, 0, 10).getLocation(), Material.YELLOW_CONCRETE);
+        fillBlock(block.getRelative(3, 0, 6).getLocation(), block.getRelative(5, 0, 8).getLocation(), Material.LIME_CONCRETE);
+    }
+
+    public static void fillBlock(Location loc1, Location loc2, Material material) {
+        int x1 = loc1.getBlockX();
+        int y1 = loc1.getBlockY();
+        int z1 = loc1.getBlockZ();
+        int x2 = loc2.getBlockX();
+        int y2 = loc2.getBlockY();
+        int z2 = loc2.getBlockZ();
+        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+            for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
+                for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
+                    loc1.getWorld().getBlockAt(x, y, z).setType(material);
+                }
+            }
+        }
+    }
+
+    public static void shrinkPlatforms() {
+        Location location = new Location(Bukkit.getWorld("world"), 6, -25, 2);
+        shrinkPlatformAtPosition(location);
+        location.setX(-18);
+        shrinkPlatformAtPosition(location);
+    }
+
+    public static void shrinkPlatformAtPosition(Location location) {
+        Block block = location.getBlock();
+        for (int xOff = 0; xOff <= 8; xOff++) {
+            for (int zOff = 0; zOff <= 14; zOff++) {
+                Block relative = block.getRelative(xOff, 0, zOff);
+                if (relative.getType().equals(Material.RED_CONCRETE)) {
+                    relative.setType(Material.ORANGE_CONCRETE);
+                }
+                else if (relative.getType().equals(Material.ORANGE_CONCRETE)) {
+                    relative.setType(Material.YELLOW_CONCRETE);
+                }
+                else if (relative.getType().equals(Material.YELLOW_CONCRETE)) {
+                    relative.setType(Material.LIME_CONCRETE);
+                }
+                else {
+                    relative.setType(Material.AIR);
+                }
             }
         }
     }
