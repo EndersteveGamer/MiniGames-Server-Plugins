@@ -158,6 +158,7 @@ public class ArrowWarsUtils {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setGameMode(GameMode.SPECTATOR);
+            player.getInventory().clear();
             if (Main.getBlueTeam().size() == 0 && Main.getRedTeam().size() == 0) {
                 player.sendTitle(ChatColor.GOLD + "Game Over!", ChatColor.GOLD + "Nobody wins!", 10, 70, 20);
             }
@@ -262,7 +263,7 @@ public class ArrowWarsUtils {
             startTurn();
         }
         Main.setRound(Main.getRound() + 1);
-        if ((Main.getRound() - 1) % 4 == 0 && Main.getRound() > 2) {
+        if ((Main.getRound() + 1) % 4 == 0 && Main.getRound() > 2 && Main.getRound() < 14) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "The platforms will shrink next round!");
             }
@@ -367,20 +368,26 @@ public class ArrowWarsUtils {
 
     public static void shrinkPlatformAtPosition(Location location) {
         Block block = location.getBlock();
+        boolean isLastShrink = block.getRelative(3, 0, 6).getType().equals(Material.ORANGE_CONCRETE);
         for (int xOff = 0; xOff <= 8; xOff++) {
             for (int zOff = 0; zOff <= 14; zOff++) {
                 Block relative = block.getRelative(xOff, 0, zOff);
                 if (relative.getType().equals(Material.RED_CONCRETE)) {
-                    relative.setType(Material.ORANGE_CONCRETE);
+                    relative.setType(Material.AIR);
                 }
                 else if (relative.getType().equals(Material.ORANGE_CONCRETE)) {
-                    relative.setType(Material.YELLOW_CONCRETE);
+                    if (isLastShrink) {
+                        relative.setType(Material.BLACK_CONCRETE);
+                    }
+                    else {
+                        relative.setType(Material.RED_CONCRETE);
+                    }
                 }
                 else if (relative.getType().equals(Material.YELLOW_CONCRETE)) {
-                    relative.setType(Material.LIME_CONCRETE);
+                    relative.setType(Material.ORANGE_CONCRETE);
                 }
-                else {
-                    relative.setType(Material.AIR);
+                else if (relative.getType().equals(Material.LIME_CONCRETE)) {
+                    relative.setType(Material.YELLOW_CONCRETE);
                 }
             }
         }

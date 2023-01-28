@@ -1,9 +1,6 @@
 package fr.enderstevegamer.arrowwars;
 
-import fr.enderstevegamer.arrowwars.commands.EndGame;
-import fr.enderstevegamer.arrowwars.commands.ForceStart;
-import fr.enderstevegamer.arrowwars.commands.Ready;
-import fr.enderstevegamer.arrowwars.commands.Spectate;
+import fr.enderstevegamer.arrowwars.commands.*;
 import fr.enderstevegamer.arrowwars.listeners.*;
 import fr.enderstevegamer.arrowwars.loops.*;
 import fr.enderstevegamer.arrowwars.utils.ArrowWarsUtils;
