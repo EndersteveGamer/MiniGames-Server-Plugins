@@ -20,3 +20,8 @@ commands:
     aliases: [aw, arwar]
     usage: /arrowwars
     default: true
+  creative:
+    description: Use to join the creative server
+    aliases: [crea]
+    usage: /creative
+    default: true

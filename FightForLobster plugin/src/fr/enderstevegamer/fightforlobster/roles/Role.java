@@ -60,7 +60,7 @@ public enum Role {
             List.of(
                     new RoleModifier(RoleModifierType.RESISTANCE, 0.8),
                     new RoleModifier(RoleModifierType.STRENGTH, 1.3),
-                    new RoleModifier(RoleModifierType.HEALTH, 2)
+                    new RoleModifier(RoleModifierType.HEALTH, 4)
             )
     ),
     SANEMI_SHINAZUGAWA(

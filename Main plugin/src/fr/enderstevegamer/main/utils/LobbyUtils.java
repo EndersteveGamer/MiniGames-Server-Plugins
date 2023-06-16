@@ -38,6 +38,13 @@ public class LobbyUtils {
                 },
                 "ArrowWars-1"
         ));
+        items.add(getItem(ChatColor.GOLD + "Creative",
+                Material.GRASS_BLOCK,
+                new String[] {
+                        ChatColor.GRAY + "A creative server"
+                },
+                "Creative-1"
+        ));
         return items;
     }
     public static Inventory getSelectorInventory() {

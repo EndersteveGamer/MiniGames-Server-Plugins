@@ -82,6 +82,7 @@ public class Roles {
             }
             case KYOJURO_RENGOKU -> {
                 for (ItemStack item : inventory) {
+                    if (item == null) continue;
                     if (!isSword(item)) continue;
                     item.addEnchantment(Enchantment.FIRE_ASPECT, 2);
                 }

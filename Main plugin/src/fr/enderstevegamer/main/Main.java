@@ -2,6 +2,7 @@ package fr.enderstevegamer.main;
 
 import fr.enderstevegamer.main.commands.ArrowWars;
 import fr.enderstevegamer.main.commands.BestParkourTimes;
+import fr.enderstevegamer.main.commands.Creative;
 import fr.enderstevegamer.main.commands.Spleef;
 import fr.enderstevegamer.main.listeners.*;
 import fr.enderstevegamer.main.loops.*;
@@ -58,6 +59,7 @@ public class Main extends JavaPlugin {
         getCommand("spleef").setExecutor(new Spleef());
         getCommand("bestparkourtimes").setExecutor(new BestParkourTimes());
         getCommand("arrowwars").setExecutor(new ArrowWars());
+        getCommand("creative").setExecutor(new Creative());
 
         // Register listeners
         Bukkit.getServer().getPluginManager().registerEvents(new OnEntityDamage(), this);
