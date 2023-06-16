@@ -22,7 +22,7 @@ public class OnInteract implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
             Player player = event.getPlayer();
 
-            if (player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("gamemodeSelector")) {
+            if (player.getInventory().getItemInMainHand().getItemMeta() != null && player.getInventory().getItemInMainHand().getItemMeta().getLocalizedName().equals("gamemodeSelector")) {
                 player.openInventory(LobbyUtils.getSelectorInventory());
             }
 

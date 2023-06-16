@@ -1,0 +1,6 @@
+main: fr.enderstevegamer.fightforlobster.Main
+name: FightForLobster
+version: 1.0
+author: Endersteve_gamer
+api-version: 1.19
+description: The plugin used for the "Fight For Lobster" minigame on my Minecraft server
