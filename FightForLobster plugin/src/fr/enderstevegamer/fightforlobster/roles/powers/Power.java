@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,9 +28,9 @@ public abstract class Power {
         this.POWER_ITEM = powerItem;
     }
 
-    public Role getRole() {return this.ROLE;}
+    public final Role getRole() {return this.ROLE;}
 
-    public ItemStack getItem(Player player) {
+    public final ItemStack getItem(Player player) {
         ItemStack item = new ItemStack(POWER_ITEM.getMaterial());
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return item;
@@ -44,7 +43,7 @@ public abstract class Power {
         return item;
     }
 
-    public void addCooldownIndication(ItemStack item, Player player) {
+    private void addCooldownIndication(ItemStack item, Player player) {
         if (item == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
@@ -56,20 +55,21 @@ public abstract class Power {
         item.setItemMeta(meta);
     }
 
-    public int getCooldownLeft(Player player) {
+    private int getCooldownLeft(Player player) {
         if (!lastActivation.containsKey(player.getUniqueId())) return -1;
-        long cooldownLeft = lastActivation.get(player.getUniqueId()) - System.currentTimeMillis();
+        long cooldownLeft = (long) (lastActivation.get(player.getUniqueId()) + POWER_COOLDOWN
+                - System.currentTimeMillis());
         if (cooldownLeft < 0) return -1;
         return (int)(cooldownLeft / 1000);
     }
 
-    public boolean isCooldownFinished(Player player) {
+    public final boolean isCooldownFinished(Player player) {
         return getCooldownLeft(player) == -1;
     }
 
     public abstract boolean onActivation(Player player);
 
-    public void tryActivating(PlayerInteractEvent event) {
+    public final void tryActivating(PlayerInteractEvent event) {
         if (!isPowerItem(event.getItem())) return;
         Player player = event.getPlayer();
         if (!Roles.getPlayerRole(player).equals(this.ROLE)) return;
@@ -87,11 +87,15 @@ public abstract class Power {
         if (onActivation(player)) lastActivation.put(player.getUniqueId(), System.currentTimeMillis());
     }
 
-    public boolean isPowerItem(ItemStack item) {
+    public final boolean isPowerItem(ItemStack item) {
         if (item == null) return false;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return false;
         return meta.getLocalizedName().equals(POWER_ITEM.getId());
+    }
+
+    public final PowerItem getPowerItem() {
+        return POWER_ITEM;
     }
 
     static class PowerItem {
@@ -118,19 +122,19 @@ public abstract class Power {
             this(material, displayName, id, null);
         }
 
-        public Material getMaterial() {
+        public final Material getMaterial() {
             return material;
         }
 
-        public String getDisplayName() {
+        public final String getDisplayName() {
             return displayName;
         }
 
-        public String getId() {
+        public final String getId() {
             return id;
         }
 
-        public List<String> getLore() {
+        public final List<String> getLore() {
             return lore;
         }
     }

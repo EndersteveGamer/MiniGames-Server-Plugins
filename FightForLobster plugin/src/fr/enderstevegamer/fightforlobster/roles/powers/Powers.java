@@ -13,4 +13,6 @@ public class Powers {
             consumer.accept(power);
         }
     }
+
+    public static List<Power> getPowers() {return powers;}
 }
