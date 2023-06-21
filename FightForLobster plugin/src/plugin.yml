@@ -9,3 +9,7 @@ commands:
     description: Gives a role to a player
     usage: /giverole <playerName> <roleName>
     aliases: gr
+  giveroleitem:
+    description: Gives the items of a role to a player
+    usage: /giveroleitem <playerName> <roleName>
+    aliases: gri

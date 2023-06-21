@@ -5,25 +5,25 @@ import fr.enderstevegamer.fightforlobster.utils.PowerUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 
-public class ShinobuPower extends Power {
-    protected ShinobuPower() {
+public class TengenPower extends Power {
+
+    protected TengenPower() {
         super(
                 60000,
-                Role.SHINOBU_KOCHO,
+                Role.TENGEN_UZUI,
                 new PowerItem(
                         Material.NETHER_STAR,
-                        "Breath of insect",
-                        "insect_breath",
+                        "Breath of Sound",
+                        "sound_breath",
                         List.of(
-                                "Removes 1 heart of max health to the",
-                                "targeted player",
+                                "Teleports on the targeted player",
                                 "(1 min cooldown)"
                         )
                 )
@@ -32,18 +32,23 @@ public class ShinobuPower extends Power {
 
     @Override
     public boolean onActivation(Player player) {
-        Player selectedPlayer = PowerUtils.getTargetedPlayer(player);
-        if (selectedPlayer == null) {
+        Player targetedPlayer = PowerUtils.getTargetedPlayer(player);
+        if (targetedPlayer == null) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                     ChatColor.RED + "No player targeted!"
             ));
             return false;
         }
-        AttributeInstance attribute = selectedPlayer.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        if (attribute == null) return false;
-        attribute.setBaseValue(attribute.getBaseValue() - 2);
-        selectedPlayer.sendMessage(ChatColor.RED + player.getName() + " made you lose a heart with the "
-                + getPowerItem().getDisplayName());
+        Location loc = targetedPlayer.getLocation();
+        for (int i = -3; i <= -1; i++) {
+            Location teleportLoc = loc.clone().add(
+                    loc.getDirection().multiply(new Vector(1, 0, 1)).multiply(i)
+            );
+            if (!PowerUtils.canTeleportHere(teleportLoc)) continue;
+            player.teleport(teleportLoc);
+            return true;
+        }
+        player.teleport(targetedPlayer.getLocation());
         return true;
     }
 }

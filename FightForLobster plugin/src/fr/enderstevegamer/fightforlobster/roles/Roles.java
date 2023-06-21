@@ -34,11 +34,21 @@ public class Roles {
     }
 
     public static void setPlayerRole(UUID uuid, Role role) {
-        playerRoles.put(uuid, role);
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) return;
+        setPlayerRole(player, role);
     }
 
     public static void setPlayerRole(Player player, Role role) {
-        setPlayerRole(player.getUniqueId(), role);
+        playerRoles.put(player.getUniqueId(), role);
+        player.setWalkSpeed(role.getRoleWalkSpeed());
+        AttributeInstance attribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (attribute == null) return;
+        attribute.setBaseValue(20);
+        for (RoleModifier modifier : role.getRoleModifiers()) {
+            if (!modifier.modifierType().equals(RoleModifierType.HEALTH)) continue;
+            attribute.setBaseValue(attribute.getBaseValue() + modifier.modifierStrength());
+        }
     }
 
     public static void onPlayerDamage(EntityDamageByEntityEvent event) {
@@ -59,15 +69,7 @@ public class Roles {
             for (Consumer<Player> playerFunction : playerFunctions) {
                 playerFunction.accept(player);
             }
-            Role role = getPlayerRole(player);
-            player.setWalkSpeed(role.getRoleWalkSpeed());
-            AttributeInstance attribute = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-            if (attribute == null) continue;
-            attribute.setBaseValue(20);
-            for (RoleModifier modifier : role.getRoleModifiers()) {
-                if (!modifier.modifierType().equals(RoleModifierType.HEALTH)) continue;
-                attribute.setBaseValue(attribute.getBaseValue() + modifier.modifierStrength());
-            }
+            Role role = Roles.getPlayerRole(player);
             player.addPotionEffects(role.getPotionEffects());
         }
     }

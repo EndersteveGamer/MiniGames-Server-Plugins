@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class Power {
-    private static final HashMap<UUID, Long> lastActivation = new HashMap<>();
+    private final HashMap<UUID, Long> lastActivation = new HashMap<>();
     private final double POWER_COOLDOWN;
     private final Role ROLE;
     private final PowerItem POWER_ITEM;
@@ -51,7 +51,7 @@ public abstract class Power {
             meta.setDisplayName(meta.getDisplayName().replaceFirst(ChatColor.RED.toString(), ""));
         }
         meta.setDisplayName(ChatColor.RED + meta.getDisplayName() +
-                "(" + getCooldownLeft(player) + "s)");
+                " (" + getCooldownLeft(player) + "s)");
         item.setItemMeta(meta);
     }
 
@@ -98,7 +98,7 @@ public abstract class Power {
         return POWER_ITEM;
     }
 
-    static class PowerItem {
+    public static class PowerItem {
         private final Material material;
         private final String displayName;
         private final String id;
