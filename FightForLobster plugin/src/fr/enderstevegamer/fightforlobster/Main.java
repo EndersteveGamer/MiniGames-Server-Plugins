@@ -5,6 +5,7 @@ import fr.enderstevegamer.fightforlobster.commands.GiveRoleItem;
 import fr.enderstevegamer.fightforlobster.commands.tabcompleters.GiveRoleCompleter;
 import fr.enderstevegamer.fightforlobster.listeners.OnInteract;
 import fr.enderstevegamer.fightforlobster.listeners.OnPlayerDamage;
+import fr.enderstevegamer.fightforlobster.runnables.TickPowers;
 import fr.enderstevegamer.fightforlobster.runnables.TickRoles;
 import fr.enderstevegamer.fightforlobster.runnables.UpdateItems;
 import org.bukkit.Bukkit;
@@ -37,7 +38,8 @@ public class Main extends JavaPlugin {
         // Start loops
         List<BukkitRunnable> runnables = List.of(
                 new TickRoles(),
-                new UpdateItems()
+                new UpdateItems(),
+                new TickPowers()
         );
 
         for (BukkitRunnable runnable : runnables) {

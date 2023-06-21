@@ -11,7 +11,8 @@ public class Powers {
             new ShinobuPower(),
             new TengenPower(),
             new SanemiPower(),
-            new ObanaiPower()
+            new ObanaiPower(),
+            new GiyuPower()
     );
 
     public static void forEach(Consumer<Power> consumer) {

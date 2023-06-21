@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class Power {
-    private final HashMap<UUID, Long> lastActivation = new HashMap<>();
-    private final double POWER_COOLDOWN;
+    protected final HashMap<UUID, Long> lastActivation = new HashMap<>();
+    protected final double POWER_COOLDOWN;
     private final Role ROLE;
     private final PowerItem POWER_ITEM;
 
@@ -30,7 +30,7 @@ public abstract class Power {
 
     public final Role getRole() {return this.ROLE;}
 
-    public final ItemStack getItem(Player player) {
+    public ItemStack getItem(Player player) {
         ItemStack item = new ItemStack(POWER_ITEM.getMaterial());
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return item;
@@ -43,19 +43,16 @@ public abstract class Power {
         return item;
     }
 
-    private void addCooldownIndication(ItemStack item, Player player) {
+    void addCooldownIndication(ItemStack item, Player player) {
         if (item == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
-        if (meta.getDisplayName().startsWith(ChatColor.RED.toString())) {
-            meta.setDisplayName(meta.getDisplayName().replaceFirst(ChatColor.RED.toString(), ""));
-        }
-        meta.setDisplayName(ChatColor.RED + meta.getDisplayName() +
+        meta.setDisplayName(ChatColor.RED + getPowerItem().getDisplayName() +
                 " (" + getCooldownLeft(player) + "s)");
         item.setItemMeta(meta);
     }
 
-    private int getCooldownLeft(Player player) {
+    protected int getCooldownLeft(Player player) {
         if (!lastActivation.containsKey(player.getUniqueId())) return -1;
         long cooldownLeft = (long) (lastActivation.get(player.getUniqueId()) + POWER_COOLDOWN
                 - System.currentTimeMillis());
@@ -63,7 +60,7 @@ public abstract class Power {
         return (int)(cooldownLeft / 1000);
     }
 
-    public final boolean isCooldownFinished(Player player) {
+    public boolean isCooldownFinished(Player player) {
         return getCooldownLeft(player) == -1;
     }
 
@@ -97,6 +94,8 @@ public abstract class Power {
     public final PowerItem getPowerItem() {
         return POWER_ITEM;
     }
+
+    public void tick(Player player) {};
 
     public static class PowerItem {
         private final Material material;
