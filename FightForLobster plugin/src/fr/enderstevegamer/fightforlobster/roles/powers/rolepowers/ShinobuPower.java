@@ -1,6 +1,7 @@
-package fr.enderstevegamer.fightforlobster.roles.powers;
+package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
+import fr.enderstevegamer.fightforlobster.roles.powers.Power;
 import fr.enderstevegamer.fightforlobster.utils.PowerUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -13,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class ShinobuPower extends Power {
-    protected ShinobuPower() {
+    public ShinobuPower() {
         super(
                 60000,
                 Role.SHINOBU_KOCHO,

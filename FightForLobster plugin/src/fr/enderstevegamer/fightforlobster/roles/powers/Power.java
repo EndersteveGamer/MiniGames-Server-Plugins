@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,7 +23,7 @@ public abstract class Power {
     private final Role ROLE;
     private final PowerItem POWER_ITEM;
 
-    protected Power(double cooldown, Role role, PowerItem powerItem) {
+    public Power(double cooldown, Role role, PowerItem powerItem) {
         this.POWER_COOLDOWN = cooldown;
         this.ROLE = role;
         this.POWER_ITEM = powerItem;
@@ -69,7 +70,7 @@ public abstract class Power {
     public final void tryActivating(PlayerInteractEvent event) {
         if (!isPowerItem(event.getItem())) return;
         Player player = event.getPlayer();
-        if (!Roles.getPlayerRole(player).equals(this.ROLE)) return;
+        if (this.ROLE != null && !Roles.getPlayerRole(player).equals(this.ROLE)) return;
         if (!lastActivation.containsKey(player.getUniqueId())) lastActivation.put(player.getUniqueId(), 0L);
         if (!isCooldownFinished(player)) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
@@ -95,7 +96,9 @@ public abstract class Power {
         return POWER_ITEM;
     }
 
-    public void tick(Player player) {};
+    public void tick(Player player) {}
+
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {}
 
     public static class PowerItem {
         private final Material material;

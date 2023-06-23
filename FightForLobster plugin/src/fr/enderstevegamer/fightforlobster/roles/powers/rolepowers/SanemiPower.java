@@ -1,6 +1,7 @@
-package fr.enderstevegamer.fightforlobster.roles.powers;
+package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
+import fr.enderstevegamer.fightforlobster.roles.powers.Power;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class SanemiPower extends Power {
     private static final double STRENGTH = 5;
-    protected SanemiPower() {
+    public SanemiPower() {
         super(
                 120000,
                 Role.SANEMI_SHINAZUGAWA,

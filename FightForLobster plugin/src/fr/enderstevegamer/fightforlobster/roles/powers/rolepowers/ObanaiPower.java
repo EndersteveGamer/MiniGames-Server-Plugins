@@ -1,6 +1,7 @@
-package fr.enderstevegamer.fightforlobster.roles.powers;
+package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
+import fr.enderstevegamer.fightforlobster.roles.powers.Power;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,7 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 
 public class ObanaiPower extends Power {
-    protected ObanaiPower() {
+    public ObanaiPower() {
         super(
                 30000,
                 Role.OBANAI_IGURO,

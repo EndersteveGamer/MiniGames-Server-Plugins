@@ -1,6 +1,7 @@
-package fr.enderstevegamer.fightforlobster.roles.powers;
+package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
+import fr.enderstevegamer.fightforlobster.roles.powers.Power;
 import fr.enderstevegamer.fightforlobster.utils.PowerUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class TengenPower extends Power {
 
-    protected TengenPower() {
+    public TengenPower() {
         super(
                 60000,
                 Role.TENGEN_UZUI,

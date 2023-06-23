@@ -1,6 +1,7 @@
 package fr.enderstevegamer.fightforlobster.roles.powers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
+import fr.enderstevegamer.fightforlobster.roles.powers.rolepowers.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +13,34 @@ public class Powers {
             new TengenPower(),
             new SanemiPower(),
             new ObanaiPower(),
-            new GiyuPower()
+            new GiyuPower(),
+            new KyojuroPower(),
+            new MuichiroPower(),
+            new MitsuriPower(),
+            new RuiPower(),
+            new DakiPower(),
+            new GyutaroPower(),
+            new GyokkoPower(),
+            new EnmuPower(),
+            new GaaraPower(),
+            new YugitoPower(),
+            new YaguraPower(),
+            new RoshiPower(),
+            new HanPower(),
+            new FuPower(),
+            new KillerBeePower(),
+            new NarutoPower(),
+            new UtakataPower()
     );
 
     public static void forEach(Consumer<Power> consumer) {
         for (Power power : powers) {
+            consumer.accept(power);
+        }
+    }
+
+    public static <T extends Power> void forEachPowerType(Class<T> powerClass, Consumer<T> consumer) {
+        for (T power : getPowerType(powerClass)) {
             consumer.accept(power);
         }
     }
@@ -31,4 +55,12 @@ public class Powers {
     }
 
     public static List<Power> getPowers() {return powers;}
+
+    public static <T extends Power> List<T> getPowerType(Class<T> powerClass) {
+        ArrayList<T> result = new ArrayList<>();
+        for (Power power : powers) {
+            if (power.getClass().equals(powerClass)) result.add(powerClass.cast(power));
+        }
+        return result;
+    }
 }

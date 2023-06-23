@@ -3,8 +3,7 @@ package fr.enderstevegamer.fightforlobster;
 import fr.enderstevegamer.fightforlobster.commands.GiveRole;
 import fr.enderstevegamer.fightforlobster.commands.GiveRoleItem;
 import fr.enderstevegamer.fightforlobster.commands.tabcompleters.GiveRoleCompleter;
-import fr.enderstevegamer.fightforlobster.listeners.OnInteract;
-import fr.enderstevegamer.fightforlobster.listeners.OnPlayerDamage;
+import fr.enderstevegamer.fightforlobster.listeners.*;
 import fr.enderstevegamer.fightforlobster.runnables.TickPowers;
 import fr.enderstevegamer.fightforlobster.runnables.TickRoles;
 import fr.enderstevegamer.fightforlobster.runnables.UpdateItems;
@@ -17,6 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class Main extends JavaPlugin {
     private static Main INSTANCE;
@@ -28,7 +29,10 @@ public class Main extends JavaPlugin {
         // Register listeners
         List<Listener> listeners = List.of(
                 new OnPlayerDamage(),
-                new OnInteract()
+                new OnInteract(),
+                new OnLiquidFlow(),
+                new OnEntityDamage(),
+                new OnPlayerMove()
         );
 
         for (Listener listener : listeners) {

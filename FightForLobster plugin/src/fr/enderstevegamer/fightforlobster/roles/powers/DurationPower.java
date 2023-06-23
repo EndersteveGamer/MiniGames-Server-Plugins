@@ -6,10 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public abstract class DurationPower extends Power {
     private final double POWER_DURATION;
-    private boolean wasActive = false;
-    protected DurationPower(double cooldown, double duration, Role role, PowerItem powerItem) {
+    private final HashMap<UUID, Boolean> wasActive = new HashMap<>();
+    public DurationPower(double cooldown, double duration, Role role, PowerItem powerItem) {
         super(cooldown, role, powerItem);
         this.POWER_DURATION = duration;
     }
@@ -62,7 +65,7 @@ public abstract class DurationPower extends Power {
     @Override
     public boolean isCooldownFinished(Player player) {
         if (isPowerActive(player)) return false;
-        return super.isCooldownFinished(player);
+        return getCooldownLeft(player) == -1;
     }
 
     protected abstract void tickActivated(Player player);
@@ -72,12 +75,12 @@ public abstract class DurationPower extends Power {
     @Override
     public final void tick(Player player) {
         if (isPowerActive(player)) {
-            wasActive = true;
+            wasActive.put(player.getUniqueId(), true);
             tickActivated(player);
         }
-        else if (wasActive) {
+        else if (wasActive.containsKey(player.getUniqueId()) && wasActive.get(player.getUniqueId())) {
             onEnd(player);
-            wasActive = false;
+            wasActive.put(player.getUniqueId(), false);
         }
         tickAlways(player);
     }
