@@ -40,7 +40,7 @@ public abstract class Power {
         if (POWER_ITEM.getLore() != null) meta.setLore(POWER_ITEM.getLore());
         item.setItemMeta(meta);
         if (player == null) return item;
-        if (getCooldownLeft(player) > 0) addCooldownIndication(item, player);
+        if (getCooldownLeft(player) != -1) addCooldownIndication(item, player);
         return item;
     }
 
@@ -99,6 +99,10 @@ public abstract class Power {
     public void tick(Player player) {}
 
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {}
+
+    private void resetCooldown(Player player) {lastActivation.remove(player.getUniqueId());}
+
+    public void onPlayerDeath(Player player) {resetCooldown(player);}
 
     public static class PowerItem {
         private final Material material;

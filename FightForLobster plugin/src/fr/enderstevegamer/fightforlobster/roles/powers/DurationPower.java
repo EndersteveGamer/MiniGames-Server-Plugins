@@ -28,7 +28,7 @@ public abstract class DurationPower extends Power {
         item.setItemMeta(meta);
         if (player == null) return item;
         if (isPowerActive(player)) addTimeLeftIndication(item, player);
-        else if (getCooldownLeft(player) > 0) addCooldownIndication(item, player);
+        else if (getCooldownLeft(player) != -1) addCooldownIndication(item, player);
         return item;
     }
 
@@ -86,4 +86,10 @@ public abstract class DurationPower extends Power {
     }
 
     protected void tickAlways(Player player) {}
+
+    @Override
+    public void onPlayerDeath(Player player) {
+        if (isPowerActive(player)) onEnd(player);
+        super.onPlayerDeath(player);
+    }
 }

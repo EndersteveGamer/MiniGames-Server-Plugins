@@ -2,6 +2,7 @@ package fr.enderstevegamer.fightforlobster.roles.powers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.powers.rolepowers.*;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +63,11 @@ public class Powers {
             if (power.getClass().equals(powerClass)) result.add(powerClass.cast(power));
         }
         return result;
+    }
+
+    public static void onPlayerDeath(Player player) {
+        for (Power power : powers) {
+            power.onPlayerDeath(player);
+        }
     }
 }

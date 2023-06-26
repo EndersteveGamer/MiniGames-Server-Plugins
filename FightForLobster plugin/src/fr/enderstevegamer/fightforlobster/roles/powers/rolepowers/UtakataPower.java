@@ -36,9 +36,9 @@ public class UtakataPower extends DurationPower {
                         "saiken",
                         List.of(
                                 "Leaves a trail of acid behind",
-                                "you for 10 seconds, lasting 20 seconds",
-                                "and inflicting Slowness I and 1 damage",
-                                "by tick players inside it",
+                                "you for 10 seconds, lasting " + SPHERE_DURATION + " seconds",
+                                "and inflicting Slowness I and damaging",
+                                "players inside of it",
                                 "(1 minute cooldown)"
                         )
                 )

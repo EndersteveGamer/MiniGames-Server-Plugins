@@ -26,9 +26,9 @@ public class GiyuPower extends DurationPower {
                         "Breath of Water",
                         "water_breath",
                         List.of(
-                                "Create a water sphere of 32 blocks",
+                                "Create a water sphere of " + RADIUS + " blocks",
                                 "radius around you for 1 minute",
-                                "(2 min cooldown)"
+                                "(1 min cooldown)"
                         )
                 )
         );

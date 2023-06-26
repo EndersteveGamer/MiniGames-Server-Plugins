@@ -23,8 +23,8 @@ public class KillerBeePower extends Power {
                         "Gyuki",
                         "gyuki",
                         List.of(
-                                "Blinds all players for 20 seconds",
-                                "in a 15 blocks radius",
+                                "Blinds all players for " + BLIND_TIME + " seconds",
+                                "in a " + RADIUS + " blocks radius",
                                 "(1 min cooldown)"
                         )
                 )

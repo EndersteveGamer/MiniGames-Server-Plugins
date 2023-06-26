@@ -34,7 +34,7 @@ public class DakiPower extends Power {
                         List.of(
                                 "Creates a line of wool in the direction",
                                 "you are looking at",
-                                "(30 sec cooldown)"
+                                "(10 sec cooldown)"
                         )
                 )
         );
@@ -46,8 +46,6 @@ public class DakiPower extends Power {
         loc.add(loc.getDirection().multiply(2));
         Location left = loc.clone().add(loc.getDirection().rotateAroundY(-90));
         Location right = loc.clone().add(loc.getDirection().rotateAroundY(90));
-        Bukkit.getLogger().info("loc: " + loc);
-        Bukkit.getLogger().info("left: " + left);
         boolean wasActivated;
         wasActivated = spawnObi(loc);
         wasActivated = spawnObi(left) || wasActivated;

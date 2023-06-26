@@ -38,7 +38,8 @@ public class HanPower extends Power {
                         "kokuo",
                         List.of(
                                 "Makes you dash forward, inflicting",
-                                "4 hearts of damage to touched players",
+                                DASH_DAMAGE/2 + " hearts of true damage to touched",
+                                "players",
                                 "(1 min cooldown)"
                         )
                 )
@@ -87,5 +88,12 @@ public class HanPower extends Power {
             touchedByDash.get(player.getUniqueId()).add(player1.getUniqueId());
         }
         player.getWorld().spawnParticle(Particle.CLOUD, player.getLocation(), 5);
+    }
+
+    @Override
+    public void onPlayerDeath(Player player) {
+        dashing.remove(player.getUniqueId());
+        touchedByDash.remove(player.getUniqueId());
+        super.onPlayerDeath(player);
     }
 }

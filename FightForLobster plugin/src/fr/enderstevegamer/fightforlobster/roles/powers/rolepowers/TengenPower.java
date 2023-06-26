@@ -24,7 +24,7 @@ public class TengenPower extends Power {
                         "Breath of Sound",
                         "sound_breath",
                         List.of(
-                                "Teleports on the targeted player",
+                                "Teleports behind the targeted player",
                                 "(1 min cooldown)"
                         )
                 )

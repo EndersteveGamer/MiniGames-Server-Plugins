@@ -37,7 +37,7 @@ public class EnmuPower extends DurationPower {
                         "nightmare",
                         List.of(
                                 "Makes the targeted player sleep,",
-                                "making him unable to hit, be hit",
+                                "making him unable to hit, be damaged",
                                 "or move, and gives him Blindness",
                                 "(1 min cooldown)"
                         )

@@ -24,8 +24,8 @@ public class KyojuroPower extends DurationPower {
                         "Breath of Flame",
                         "flame_breath",
                         List.of(
-                                "Creates a fire sphere around you, that lasts",
-                                "1 minute",
+                                "Creates a fire sphere around you, ",
+                                "that lasts 1 minute",
                                 "(2 min cooldown)"
                         )
                 )

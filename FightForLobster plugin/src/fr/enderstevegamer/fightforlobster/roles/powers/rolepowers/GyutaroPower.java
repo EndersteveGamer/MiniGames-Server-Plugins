@@ -23,7 +23,7 @@ public class GyutaroPower extends Power {
                         "stale_blood",
                         List.of(
                                 "Inflicts Wither II for 10 seconds to players",
-                                "that are less than 10 blocks away",
+                                "that are less than " + RADIUS + " blocks away",
                                 "(1 min cooldown)"
                         )
                 )

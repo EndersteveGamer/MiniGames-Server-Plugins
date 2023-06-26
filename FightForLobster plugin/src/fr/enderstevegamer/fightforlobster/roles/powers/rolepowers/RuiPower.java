@@ -24,7 +24,7 @@ public class RuiPower extends Power {
                                 "Spawns a spider web on the feets",
                                 "of the targeted player, making",
                                 "a heart of damage",
-                                "(10 sec cooldown)"
+                                "(15 sec cooldown)"
                         )
                 )
         );

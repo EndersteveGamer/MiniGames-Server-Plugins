@@ -26,7 +26,7 @@ public class NarutoPower extends DurationPower {
                         "Kurama",
                         "kurama",
                         List.of(
-                                "Inflicts 4 hearts of damage,",
+                                "Inflicts 4 hearts of true damage,",
                                 "Slowness 20% and Weakness 20%",
                                 "for 20 seconds",
                                 "(1 min cooldown)"

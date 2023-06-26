@@ -4,10 +4,7 @@ import fr.enderstevegamer.fightforlobster.commands.GiveRole;
 import fr.enderstevegamer.fightforlobster.commands.GiveRoleItem;
 import fr.enderstevegamer.fightforlobster.commands.tabcompleters.GiveRoleCompleter;
 import fr.enderstevegamer.fightforlobster.listeners.*;
-import fr.enderstevegamer.fightforlobster.runnables.OldPvp;
-import fr.enderstevegamer.fightforlobster.runnables.TickPowers;
-import fr.enderstevegamer.fightforlobster.runnables.TickRoles;
-import fr.enderstevegamer.fightforlobster.runnables.UpdateItems;
+import fr.enderstevegamer.fightforlobster.runnables.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -38,7 +35,8 @@ public class Main extends JavaPlugin {
                 new OnInteract(),
                 new OnLiquidFlow(),
                 new OnEntityDamage(),
-                new OnPlayerMove()
+                new OnPlayerMove(),
+                new OnPlayerDeath()
         );
 
         for (Listener listener : listeners) {
@@ -50,7 +48,8 @@ public class Main extends JavaPlugin {
                 new TickRoles(),
                 new UpdateItems(),
                 new TickPowers(),
-                new OldPvp()
+                new OldPvp(),
+                new RemoveFire()
         );
 
         for (BukkitRunnable runnable : runnables) {

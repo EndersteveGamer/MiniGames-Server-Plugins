@@ -23,8 +23,9 @@ public class GyokkoPower extends DurationPower {
                         "Sharp Scales",
                         "sharp_scales",
                         List.of(
-                                "Gives you the equivalent of Thorns III",
-                                "for 30 seconds",
+                                "Gives you a more aggressive",
+                                "equivalent of Thorns III for ",
+                                "30 seconds",
                                 "(1 min cooldown)"
                         )
                 )

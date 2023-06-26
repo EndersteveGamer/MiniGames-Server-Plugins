@@ -28,7 +28,7 @@ public class MuichiroPower extends DurationPower {
                         List.of(
                                 "Creates a mist sphere around you, inflicting",
                                 "blindness to all players inside. Lasts 1 minute",
-                                "(2 min cooldown)"
+                                "(1 min cooldown)"
                         )
                 )
         );
