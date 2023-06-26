@@ -3,11 +3,13 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.powers.DurationPower;
 import fr.enderstevegamer.fightforlobster.utils.BlockUtils;
+import fr.enderstevegamer.fightforlobster.utils.PowerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -20,7 +22,7 @@ public class UtakataPower extends DurationPower {
     private static final double SPHERE_RADIUS = 5;
     private static final int PARTICLES_PER_TICK = 5;
     private static final double SPHERE_DURATION = 20;
-    private static final double DAMAGE_PER_TICK = 18/20f;
+    private static final double DAMAGE_PER_TICK = 1;
     private final HashMap<UUID, ArrayList<PoisonSphere>> poisonTrails = new HashMap<>();
     private final HashMap<UUID, Integer> tickCounts = new HashMap<>();
     public UtakataPower() {
@@ -35,8 +37,8 @@ public class UtakataPower extends DurationPower {
                         List.of(
                                 "Leaves a trail of acid behind",
                                 "you for 10 seconds, lasting 20 seconds",
-                                "and inflicting Slowness II and Wither II to",
-                                "players inside it",
+                                "and inflicting Slowness I and 1 damage",
+                                "by tick players inside it",
                                 "(1 minute cooldown)"
                         )
                 )
@@ -64,6 +66,7 @@ public class UtakataPower extends DurationPower {
 
     @Override
     protected void tickAlways(Player player) {
+        ArrayList<UUID> damaged = new ArrayList<>();
         if (!poisonTrails.containsKey(player.getUniqueId())) return;
         poisonTrails.get(player.getUniqueId()).removeIf(PoisonSphere::isExpired);
         for (PoisonSphere sphere : poisonTrails.get(player.getUniqueId())) {
@@ -72,9 +75,11 @@ public class UtakataPower extends DurationPower {
                 player.getWorld().spawnParticle(Particle.DRAGON_BREATH, loc, 2, 0, 0, 0, 0.01);
             }
             for (Player player1 : Bukkit.getOnlinePlayers()) {
+                if (damaged.contains(player1.getUniqueId())) continue;
                 if (player1.getUniqueId().equals(player.getUniqueId())) continue;
                 if (player1.getLocation().distance(sphere.getLoc()) > SPHERE_RADIUS) continue;
-                player1.damage(DAMAGE_PER_TICK);
+                PowerUtils.damageThroughArmor(player1, DAMAGE_PER_TICK);
+                damaged.add(player1.getUniqueId());
                 player1.addPotionEffect(new PotionEffect(
                         PotionEffectType.SLOW, 20, 0, false, false
                 ));

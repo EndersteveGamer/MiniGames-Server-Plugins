@@ -40,6 +40,7 @@ public class GyutaroPower extends Power {
                     PotionEffectType.WITHER, 10*20, 1, true, true
             ));
             player1.sendMessage(ChatColor.RED + "You were withered by " + player.getName());
+            activated = true;
         }
         return activated;
     }

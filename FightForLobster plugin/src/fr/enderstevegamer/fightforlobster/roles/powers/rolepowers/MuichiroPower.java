@@ -41,7 +41,7 @@ public class MuichiroPower extends DurationPower {
                 if (player1.getUniqueId().equals(uuid)) continue;
                 if (player1.getLocation().distance(spheres.get(uuid)) > RADIUS) continue;
                 player1.addPotionEffect(new PotionEffect(
-                        PotionEffectType.BLINDNESS, 10, 2, false, false
+                        PotionEffectType.BLINDNESS, 60, 2, false, false
                 ));
             }
         }
@@ -50,7 +50,7 @@ public class MuichiroPower extends DurationPower {
                 Location particleLoc = BlockUtils.randomPointInSphere(loc, RADIUS);
                 World world = particleLoc.getWorld();
                 if (world == null) continue;
-                world.spawnParticle(Particle.CLOUD, particleLoc, 10);
+                world.spawnParticle(Particle.CLOUD, particleLoc, 5, 0, 0, 0, 0.5);
             }
         }
     }

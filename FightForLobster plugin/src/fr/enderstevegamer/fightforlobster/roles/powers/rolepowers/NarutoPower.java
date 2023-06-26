@@ -60,7 +60,7 @@ public class NarutoPower extends DurationPower {
         }
         affectedPlayer.put(player.getUniqueId(), targeted.getUniqueId());
         targeted.setWalkSpeed(targeted.getWalkSpeed() * 0.8f);
-        targeted.damage(8);
+        PowerUtils.damageThroughArmor(targeted, 8);
         targeted.sendMessage(ChatColor.RED + player.getName() + " sent you a wave of chakra!");
         BlockUtils.forEachLineLocBetweenPos(
                 player.getLocation(),

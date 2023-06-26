@@ -3,6 +3,7 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.Roles;
 import fr.enderstevegamer.fightforlobster.roles.powers.Power;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,10 +22,10 @@ public class DakiPower extends Power {
             Material.YELLOW_WOOL,
             Material.BLACK_WOOL
     );
-    private final float SPEED_BOOST = 1.4f;
+    private final float SPEED_BOOST = 1.6f;
     public DakiPower() {
         super(
-                15000,
+                10000,
                 Role.DAKI,
                 new PowerItem(
                         Material.NETHER_STAR,
@@ -41,12 +42,24 @@ public class DakiPower extends Power {
 
     @Override
     public boolean onActivation(Player player) {
-        Location loc = player.getEyeLocation();
+        Location loc = player.getLocation();
         loc.add(loc.getDirection().multiply(2));
+        Location left = loc.clone().add(loc.getDirection().rotateAroundY(-90));
+        Location right = loc.clone().add(loc.getDirection().rotateAroundY(90));
+        Bukkit.getLogger().info("loc: " + loc);
+        Bukkit.getLogger().info("left: " + left);
+        boolean wasActivated;
+        wasActivated = spawnObi(loc);
+        wasActivated = spawnObi(left) || wasActivated;
+        wasActivated = spawnObi(right) || wasActivated;
+        return wasActivated;
+    }
+
+    public boolean spawnObi(Location loc) {
         BlockIterator iterator = new BlockIterator(loc, 0, LENGTH);
         while (iterator.hasNext()) {
             Block block = iterator.next();
-            if (block.isPassable()) block.setType(
+            if (block.isPassable() || OBI_MATERIALS.contains(block.getType())) block.setType(
                     switch ((int)(block.getLocation().distance(loc) % 6)) {
                         case 0, 1, 3, 4 -> Material.MAGENTA_WOOL;
                         case 2 -> Material.YELLOW_WOOL;

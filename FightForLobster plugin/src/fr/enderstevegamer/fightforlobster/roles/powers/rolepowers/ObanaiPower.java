@@ -36,7 +36,7 @@ public class ObanaiPower extends Power {
             if (player1.getLocation().distance(player.getLocation()) > 20) continue;
             if (player1.getUniqueId().equals(player.getUniqueId())) continue;
             player1.addPotionEffect(new PotionEffect(
-                    PotionEffectType.POISON, 10*20, 2, false, false
+                    PotionEffectType.POISON, 10*20, 2, false, true
             ));
             player1.sendMessage(ChatColor.RED + "You were poisoned by " + player.getName());
             activated = true;

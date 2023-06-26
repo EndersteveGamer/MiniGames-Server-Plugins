@@ -41,7 +41,7 @@ public class YugitoPower extends Power {
             Block block = iterator.next();
             if (block.isPassable()) isPassable = true;
             else if (isPassable) {
-                BlockUtils.forEachSphereBlock(block.getLocation(), 16, (b) -> {
+                BlockUtils.forEachSphereBlock(block.getLocation(), 24, (b) -> {
                     if (!b.isPassable()) return;
                     b.setType(Material.FIRE);
                 });
