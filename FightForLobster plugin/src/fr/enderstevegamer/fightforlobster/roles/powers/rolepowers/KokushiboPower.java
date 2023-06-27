@@ -72,6 +72,12 @@ public class KokushiboPower extends Power {
         projs.removeIf(MoonProjectile::isRemoved);
     }
 
+    @Override
+    public void onPlayerDeath(Player player) {
+        shooting.remove(player.getUniqueId());
+        super.onPlayerDeath(player);
+    }
+
     private static class MoonProjectile {
         private final Location loc;
         private double projectileTick;
