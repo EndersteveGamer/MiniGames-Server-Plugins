@@ -13,7 +13,7 @@ public class SanemiPower extends Power {
     public SanemiPower() {
         super(
                 120000,
-                Role.SANEMI_SHINAZUGAWA,
+                Role.SANEMI,
                 new PowerItem(
                         Material.NETHER_STAR,
                         "Breath of Wind",

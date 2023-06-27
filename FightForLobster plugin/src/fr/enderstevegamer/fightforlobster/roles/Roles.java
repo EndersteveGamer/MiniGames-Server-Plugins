@@ -1,5 +1,7 @@
 package fr.enderstevegamer.fightforlobster.roles;
 
+import fr.enderstevegamer.fightforlobster.roles.powers.Power;
+import fr.enderstevegamer.fightforlobster.roles.powers.Powers;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -49,6 +51,18 @@ public class Roles {
             if (!modifier.modifierType().equals(RoleModifierType.HEALTH)) continue;
             attribute.setBaseValue(attribute.getBaseValue() + modifier.modifierStrength());
         }
+        ItemStack[] contents = player.getInventory().getContents();
+        for (int i = 0; i < contents.length; i++) {
+            boolean isPowerItem = false;
+            for (Power power : Powers.getPowers()) {
+                isPowerItem = isPowerItem || power.isPowerItem(contents[i]);
+            }
+            if (isPowerItem) contents[i] = null;
+        }
+        player.getInventory().setContents(contents);
+        for (Power power : Powers.getPowers()) {
+            if (power.getRole().equals(role)) player.getInventory().addItem(power.getItem(player));
+        }
     }
 
     public static void onPlayerDamage(EntityDamageByEntityEvent event) {
@@ -77,12 +91,12 @@ public class Roles {
     private static void enchantItems(Player player) {
         PlayerInventory inventory = player.getInventory();
         switch (Roles.getPlayerRole(player)) {
-            case GIYU_TOMIOKA -> {
+            case GIYU -> {
                 ItemStack item = inventory.getBoots();
                 if (item == null) break;
                 item.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 3);
             }
-            case KYOJURO_RENGOKU -> {
+            case KYOJURO -> {
                 for (ItemStack item : inventory) {
                     if (item == null) continue;
                     if (!isSword(item)) continue;
@@ -105,7 +119,7 @@ public class Roles {
     }
 
     private static void tickObanai(Player player) {
-        if (!getPlayerRole(player).equals(Role.OBANAI_IGURO)) return;
+        if (!getPlayerRole(player).equals(Role.OBANAI)) return;
         PlayerInventory inventory = player.getInventory();
         for (ItemStack item : inventory.getArmorContents()) {
             if (item != null) return;

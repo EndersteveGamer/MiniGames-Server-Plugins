@@ -36,7 +36,7 @@ public class UtakataPower extends DurationPower {
                         "saiken",
                         List.of(
                                 "Leaves a trail of acid behind",
-                                "you for 10 seconds, lasting " + SPHERE_DURATION + " seconds",
+                                "you for 10 seconds, lasting " + (int) SPHERE_DURATION + " seconds",
                                 "and inflicting Slowness I and damaging",
                                 "players inside of it",
                                 "(1 minute cooldown)"
@@ -72,13 +72,13 @@ public class UtakataPower extends DurationPower {
         for (PoisonSphere sphere : poisonTrails.get(player.getUniqueId())) {
             for (int i = 0; i < PARTICLES_PER_TICK; i++) {
                 Location loc = BlockUtils.randomPointInSphere(sphere.getLoc(), SPHERE_RADIUS);
-                player.getWorld().spawnParticle(Particle.DRAGON_BREATH, loc, 2, 0, 0, 0, 0.01);
+                player.spawnParticle(Particle.DRAGON_BREATH, loc, 2, 0, 0, 0, 0.01);
             }
             for (Player player1 : Bukkit.getOnlinePlayers()) {
                 if (damaged.contains(player1.getUniqueId())) continue;
                 if (player1.getUniqueId().equals(player.getUniqueId())) continue;
                 if (player1.getLocation().distance(sphere.getLoc()) > SPHERE_RADIUS) continue;
-                PowerUtils.damageThroughArmor(player1, DAMAGE_PER_TICK);
+                PowerUtils.damageThroughArmor(player1, DAMAGE_PER_TICK, player);
                 damaged.add(player1.getUniqueId());
                 player1.addPotionEffect(new PotionEffect(
                         PotionEffectType.SLOW, 20, 0, false, false

@@ -27,7 +27,7 @@ public class GiveRoleCompleter implements TabCompleter {
         if (strings.length == 2) {
             ArrayList<String> result = new ArrayList<>();
             for (Role role : Role.values()) {
-                result.add(role.name());
+                result.add(role.name().toLowerCase());
             }
             return result;
         }

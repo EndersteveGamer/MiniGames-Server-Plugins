@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum Role {
-    GIYU_TOMIOKA(
+    GIYU(
             "Giyu Tomioka",
             List.of(
                     new ShortPotionEffect(
@@ -16,18 +16,17 @@ public enum Role {
                     )
             ),
             List.of(
-                    new RoleModifier(RoleModifierType.RESISTANCE, 0.7),
-                    new RoleModifier(RoleModifierType.STRENGTH, 1.4)
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.7)
             ),
-            1.2f
+            1.4f
     ),
-    SHINOBU_KOCHO(
+    SHINOBU(
             "Shinobu Kocho",
             List.of(),
             List.of(),
             1.7f
     ),
-    KYOJURO_RENGOKU(
+    KYOJURO(
             "Kyojuro Rengoku",
             List.of(
                     new ShortPotionEffect(PotionEffectType.FIRE_RESISTANCE)
@@ -37,7 +36,7 @@ public enum Role {
                     new RoleModifier(RoleModifierType.RESISTANCE, 0.7)
             )
     ),
-    TENGEN_UZUI(
+    TENGEN(
             "Tengen Uzui",
             List.of(),
             List.of(
@@ -45,7 +44,7 @@ public enum Role {
             ),
             1.4f
     ),
-    MUICHIRO_TOKITO(
+    MUICHIRO(
             "Muichiro Tokito",
             List.of(),
             List.of(
@@ -53,7 +52,7 @@ public enum Role {
             ),
             1.3f
     ),
-    MITSURI_KANROJI(
+    MITSURI(
             "Mitsuri Kanroji",
             List.of(),
             List.of(
@@ -61,7 +60,7 @@ public enum Role {
                     new RoleModifier(RoleModifierType.HEALTH, 4)
             )
     ),
-    GYOMEI_HIMEJIMA(
+    GYOMEI(
             "Gyomei Himejima",
             List.of(),
             List.of(
@@ -70,7 +69,7 @@ public enum Role {
                     new RoleModifier(RoleModifierType.HEALTH, 4)
             )
     ),
-    SANEMI_SHINAZUGAWA(
+    SANEMI(
             "Sanemi Shinazugawa",
             List.of(),
             List.of(
@@ -78,7 +77,7 @@ public enum Role {
             ),
             1.5f
     ),
-    OBANAI_IGURO(
+    OBANAI(
             "Obanai Iguro",
             List.of(),
             List.of(
@@ -126,6 +125,41 @@ public enum Role {
             List.of(
                     new RoleModifier(RoleModifierType.RESISTANCE, 0.7),
                     new RoleModifier(RoleModifierType.STRENGTH, 1.3)
+            )
+    ),
+    ZOHAKUTEN(
+            "Zohakuten",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.4),
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.9)
+            ),
+            1.2f
+    ),
+    DOMA(
+            "Doma",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.4),
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.8),
+                    new RoleModifier(RoleModifierType.HEALTH, 4)
+            )
+    ),
+    KOKUSHIBO(
+            "Kokushibo",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.3),
+                    new RoleModifier(RoleModifierType.HEALTH, 4)
+            ),
+            1.8f
+    ),
+    AKAZA(
+            "Akaza",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.7),
+                    new RoleModifier(RoleModifierType.HEALTH, 4)
             )
     ),
     GAARA(
@@ -218,6 +252,14 @@ public enum Role {
                     new RoleModifier(RoleModifierType.HEALTH, 4)
             ),
             1.3f
+    ),
+    HIDAN(
+            "Hidan",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.HEALTH, 20)
+            ),
+            0.8f
     ),
     NORMAL_PLAYER("A normal player");
 

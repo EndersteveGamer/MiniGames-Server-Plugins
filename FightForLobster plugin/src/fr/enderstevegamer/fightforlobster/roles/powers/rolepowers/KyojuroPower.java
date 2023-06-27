@@ -18,7 +18,7 @@ public class KyojuroPower extends DurationPower {
         super(
                 60000,
                 60000,
-                Role.KYOJURO_RENGOKU,
+                Role.KYOJURO,
                 new PowerItem(
                         Material.NETHER_STAR,
                         "Breath of Flame",

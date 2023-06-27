@@ -13,3 +13,7 @@ commands:
     description: Gives the items of a role to a player
     usage: /giveroleitem <playerName> <roleName>
     aliases: gri
+  selectrole:
+    description: Opens the role selection menu
+    usage: /selectrole
+    aliases: sr

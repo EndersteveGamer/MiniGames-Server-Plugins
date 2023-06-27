@@ -17,7 +17,7 @@ public class ShinobuPower extends Power {
     public ShinobuPower() {
         super(
                 60000,
-                Role.SHINOBU_KOCHO,
+                Role.SHINOBU,
                 new PowerItem(
                         Material.NETHER_STAR,
                         "Breath of insect",

@@ -2,10 +2,12 @@ package fr.enderstevegamer.fightforlobster;
 
 import fr.enderstevegamer.fightforlobster.commands.GiveRole;
 import fr.enderstevegamer.fightforlobster.commands.GiveRoleItem;
+import fr.enderstevegamer.fightforlobster.commands.SelectRole;
 import fr.enderstevegamer.fightforlobster.commands.tabcompleters.GiveRoleCompleter;
 import fr.enderstevegamer.fightforlobster.listeners.*;
 import fr.enderstevegamer.fightforlobster.runnables.*;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
@@ -26,7 +28,9 @@ public class Main extends JavaPlugin {
         INSTANCE = this;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.setAllowFlight(false);
+            if (player.getGameMode().equals(GameMode.SURVIVAL) || player.getGameMode().equals(GameMode.ADVENTURE)) {
+                player.setAllowFlight(false);
+            }
         }
 
         // Register listeners
@@ -36,7 +40,8 @@ public class Main extends JavaPlugin {
                 new OnLiquidFlow(),
                 new OnEntityDamage(),
                 new OnPlayerMove(),
-                new OnPlayerDeath()
+                new OnPlayerDeath(),
+                new OnInventoryClick()
         );
 
         for (Listener listener : listeners) {
@@ -59,6 +64,7 @@ public class Main extends JavaPlugin {
         // Register command
         registerCommand("giverole", new GiveRole(), new GiveRoleCompleter());
         registerCommand("giveroleitem", new GiveRoleItem(), new GiveRoleCompleter());
+        registerCommand("selectrole", new SelectRole());
 
         Bukkit.getLogger().info("The plugin " + this.getName() + " was enabled sucessfully!");
     }

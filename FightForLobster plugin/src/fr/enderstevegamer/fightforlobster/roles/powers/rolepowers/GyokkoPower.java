@@ -55,7 +55,7 @@ public class GyokkoPower extends DurationPower {
 
     private void onPlayerDamage(Player damaged, Player damager) {
         if (!thorned.contains(damaged.getUniqueId())) return;
-        damager.damage((int)(Math.random() * 4) + 3);
+        damager.damage((int)(Math.random() * 4) + 3, damaged);
     }
 
     private void onArrowDamage(Player damaged, Projectile projectile) {

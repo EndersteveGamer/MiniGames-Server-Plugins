@@ -22,7 +22,7 @@ public class YugitoPower extends Power {
                         "matatabi",
                         List.of(
                                 "Creates fire in a",
-                                RADIUS + " blocks sphere around the",
+                                (int) RADIUS + " blocks sphere around the",
                                 "targeted block",
                                 "(1 min cooldown)"
                         )

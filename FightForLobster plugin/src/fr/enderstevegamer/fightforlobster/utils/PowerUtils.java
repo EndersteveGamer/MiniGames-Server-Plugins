@@ -2,9 +2,11 @@ package fr.enderstevegamer.fightforlobster.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 
 public class PowerUtils {
@@ -39,10 +41,14 @@ public class PowerUtils {
         return loc.getBlock().isPassable() && loc.getBlock().getRelative(0, 1, 0).isPassable();
     }
 
-    public static void damageThroughArmor(Player player, double damage) {
+    public static void damageThroughArmor(Player player, double damage, @Nullable Entity cause) {
         if (player.getNoDamageTicks() > 0) return;
         player.damage(1);
         if (player.getHealth() - damage < 0) player.setHealth(0);
         else player.setHealth(player.getHealth() - damage);
+    }
+
+    public static void damageThroughArmor(Player player, double damage) {
+        damageThroughArmor(player, damage, null);
     }
 }

@@ -15,7 +15,7 @@ public class ObanaiPower extends Power {
     public ObanaiPower() {
         super(
                 30000,
-                Role.OBANAI_IGURO,
+                Role.OBANAI,
                 new PowerItem(
                         Material.NETHER_STAR,
                         "Breath of Snake",

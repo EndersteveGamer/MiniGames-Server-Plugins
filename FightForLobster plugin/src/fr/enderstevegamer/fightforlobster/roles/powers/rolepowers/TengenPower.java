@@ -18,7 +18,7 @@ public class TengenPower extends Power {
     public TengenPower() {
         super(
                 60000,
-                Role.TENGEN_UZUI,
+                Role.TENGEN,
                 new PowerItem(
                         Material.NETHER_STAR,
                         "Breath of Sound",

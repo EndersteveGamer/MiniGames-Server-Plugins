@@ -22,7 +22,7 @@ public class MitsuriPower extends DurationPower {
         super(
                 60000,
                 10000,
-                Role.MITSURI_KANROJI,
+                Role.MITSURI,
                 new PowerItem(
                         Material.NETHER_STAR,
                         "Breath of Love",

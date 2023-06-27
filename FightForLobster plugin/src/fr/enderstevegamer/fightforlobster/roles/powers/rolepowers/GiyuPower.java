@@ -20,13 +20,13 @@ public class GiyuPower extends DurationPower {
         super(
                 60000,
                 60000,
-                Role.GIYU_TOMIOKA,
+                Role.GIYU,
                 new PowerItem(
                         Material.NETHER_STAR,
                         "Breath of Water",
                         "water_breath",
                         List.of(
-                                "Create a water sphere of " + RADIUS + " blocks",
+                                "Create a water sphere of " + (int) RADIUS + " blocks",
                                 "radius around you for 1 minute",
                                 "(1 min cooldown)"
                         )

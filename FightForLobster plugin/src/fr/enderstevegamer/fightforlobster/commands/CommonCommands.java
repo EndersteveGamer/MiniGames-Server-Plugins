@@ -49,7 +49,7 @@ public class CommonCommands {
         }
         Role selectedRole = null;
         for (Role role : Role.values()) {
-            if (role.name().equals(strings[1])) {
+            if (role.name().toLowerCase().equals(strings[1])) {
                 selectedRole = role;
                 break;
             }

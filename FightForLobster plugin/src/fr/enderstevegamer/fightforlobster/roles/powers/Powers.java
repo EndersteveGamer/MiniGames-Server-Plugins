@@ -31,7 +31,12 @@ public class Powers {
             new FuPower(),
             new KillerBeePower(),
             new NarutoPower(),
-            new UtakataPower()
+            new UtakataPower(),
+            new ZohakutenPower(),
+            new AkazaPower(),
+            new DomaPower(),
+            new KokushiboPower(),
+            new HidanPower()
     );
 
     public static void forEach(Consumer<Power> consumer) {

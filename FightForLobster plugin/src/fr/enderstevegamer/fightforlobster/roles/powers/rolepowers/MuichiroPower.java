@@ -20,14 +20,15 @@ public class MuichiroPower extends DurationPower {
         super(
                 60000,
                 60000,
-                Role.MUICHIRO_TOKITO,
+                Role.MUICHIRO,
                 new PowerItem(
                         Material.NETHER_STAR,
                         "Breath of Mist",
                         "mist_breath",
                         List.of(
-                                "Creates a mist sphere around you, inflicting",
-                                "blindness to all players inside. Lasts 1 minute",
+                                "Creates a mist sphere around you,",
+                                "inflicting blindness to all players",
+                                "inside. Lasts 1 minute",
                                 "(1 min cooldown)"
                         )
                 )

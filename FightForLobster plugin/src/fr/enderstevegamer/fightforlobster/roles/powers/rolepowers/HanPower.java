@@ -38,7 +38,7 @@ public class HanPower extends Power {
                         "kokuo",
                         List.of(
                                 "Makes you dash forward, inflicting",
-                                DASH_DAMAGE/2 + " hearts of true damage to touched",
+                                (int) (DASH_DAMAGE/2) + " hearts of true damage to touched",
                                 "players",
                                 "(1 min cooldown)"
                         )
@@ -84,7 +84,7 @@ public class HanPower extends Power {
             if (player1.getLocation().distance(player.getLocation()) > DAMAGE_RADIUS) continue;
             if (touchedByDash.containsKey(player.getUniqueId())
                     && touchedByDash.get(player.getUniqueId()).contains(player1.getUniqueId())) continue;
-            PowerUtils.damageThroughArmor(player1, DASH_DAMAGE);
+            PowerUtils.damageThroughArmor(player1, DASH_DAMAGE, player);
             touchedByDash.get(player.getUniqueId()).add(player1.getUniqueId());
         }
         player.getWorld().spawnParticle(Particle.CLOUD, player.getLocation(), 5);
