@@ -16,7 +16,7 @@ public class DeathUtils {
         Role deadRole = Roles.getPlayerRole(dead);
         String roleString = (deadRole == null) ? "" : " (" + deadRole + ")";
         if (killer == null) {
-            event.setDeathMessage(dead.getName() + roleString +  "died");
+            event.setDeathMessage(dead.getName() + roleString +  " died");
         }
         else {
             Role killerRole = Roles.getPlayerRole(killer);

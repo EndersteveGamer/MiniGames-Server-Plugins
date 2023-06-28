@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -21,8 +20,9 @@ import java.util.UUID;
 public class UtakataPower extends DurationPower {
     private static final double SPHERE_RADIUS = 5;
     private static final int PARTICLES_PER_TICK = 5;
-    private static final double SPHERE_DURATION = 20;
+    private static final double SPHERE_DURATION = 40;
     private static final double DAMAGE_PER_TICK = 1;
+    private static final double MIN_SPHERE_DISTANCE = 2;
     private final HashMap<UUID, ArrayList<PoisonSphere>> poisonTrails = new HashMap<>();
     private final HashMap<UUID, Integer> tickCounts = new HashMap<>();
     public UtakataPower() {
@@ -49,6 +49,8 @@ public class UtakataPower extends DurationPower {
     protected void tickActivated(Player player) {
         tickCounts.put(player.getUniqueId(), tickCounts.get(player.getUniqueId()) + 1);
         if (tickCounts.get(player.getUniqueId()) % 10 != 0) return;
+        if (closestSphereDistance(player.getLocation(), poisonTrails.get(player.getUniqueId()))
+                < MIN_SPHERE_DISTANCE) return;
         poisonTrails.get(player.getUniqueId()).add(new PoisonSphere(player.getLocation()));
     }
 
@@ -72,7 +74,7 @@ public class UtakataPower extends DurationPower {
         for (PoisonSphere sphere : poisonTrails.get(player.getUniqueId())) {
             for (int i = 0; i < PARTICLES_PER_TICK; i++) {
                 Location loc = BlockUtils.randomPointInSphere(sphere.getLoc(), SPHERE_RADIUS);
-                player.spawnParticle(Particle.DRAGON_BREATH, loc, 2, 0, 0, 0, 0.01);
+                player.getWorld().spawnParticle(Particle.DRAGON_BREATH, loc, 2, 0, 0, 0, 0.01);
             }
             for (Player player1 : Bukkit.getOnlinePlayers()) {
                 if (damaged.contains(player1.getUniqueId())) continue;
@@ -85,6 +87,15 @@ public class UtakataPower extends DurationPower {
                 ));
             }
         }
+    }
+
+    private double closestSphereDistance(Location loc, ArrayList<PoisonSphere> spheres) {
+        if (spheres.size() == 0) return Double.POSITIVE_INFINITY;
+        double min = loc.distance(spheres.get(0).getLoc());
+        for (PoisonSphere sphere : spheres) {
+            if (loc.distance(sphere.getLoc()) < min) min = loc.distance(sphere.getLoc());
+        }
+        return min;
     }
 
     private record PoisonSphere(Location loc, double creationTime) {

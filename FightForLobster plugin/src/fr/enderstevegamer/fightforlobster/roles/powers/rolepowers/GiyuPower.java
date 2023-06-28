@@ -39,10 +39,12 @@ public class GiyuPower extends DurationPower {
 
     @Override
     protected void onEnd(Player player) {
-        BlockUtils.forEachSphereBlock(spheres.get(player.getUniqueId()), RADIUS + 1,
-                (b) -> {
-                    if (b.getType().equals(Material.WATER)) b.setType(Material.AIR);
-                });
+        if (spheres.containsKey(player.getUniqueId())) {
+            BlockUtils.forEachSphereBlock(spheres.get(player.getUniqueId()), RADIUS + 1,
+                    (b) -> {
+                        if (b.getType().equals(Material.WATER)) b.setType(Material.AIR);
+                    });
+        }
         spheres.remove(player.getUniqueId());
     }
 

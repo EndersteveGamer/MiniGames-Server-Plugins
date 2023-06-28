@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class AkazaPower extends Power {
-    private static final double RADIUS = 24;
+    private static final double RADIUS = 8;
     public AkazaPower() {
         super(
-                120000,
+                60000,
                 Role.AKAZA,
                 new PowerItem(
                         Material.NETHER_STAR,
@@ -21,7 +21,7 @@ public class AkazaPower extends Power {
                         List.of(
                                 "Create a " + (int) RADIUS + " blocks radius",
                                 "crater around you",
-                                "(2 min cooldown)"
+                                "(1 min cooldown)"
                         )
                 )
         );

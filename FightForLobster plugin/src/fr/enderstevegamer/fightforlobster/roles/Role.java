@@ -136,6 +136,14 @@ public enum Role {
             ),
             1.2f
     ),
+    AKAZA(
+            "Akaza",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.7),
+                    new RoleModifier(RoleModifierType.HEALTH, 4)
+            )
+    ),
     DOMA(
             "Doma",
             List.of(),
@@ -153,14 +161,6 @@ public enum Role {
                     new RoleModifier(RoleModifierType.HEALTH, 4)
             ),
             1.8f
-    ),
-    AKAZA(
-            "Akaza",
-            List.of(),
-            List.of(
-                    new RoleModifier(RoleModifierType.STRENGTH, 1.7),
-                    new RoleModifier(RoleModifierType.HEALTH, 4)
-            )
     ),
     GAARA(
             "Gaara",

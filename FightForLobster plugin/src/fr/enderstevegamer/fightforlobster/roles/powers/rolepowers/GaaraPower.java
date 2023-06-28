@@ -21,7 +21,7 @@ public class GaaraPower extends Power {
                         "Shukaku",
                         "shukaku",
                         List.of(
-                                "Creates a 7x7x7 cube of sand",
+                                "Creates a 9x9x9 cube of sand",
                                 "around the targeted block",
                                 "(1 min cooldown)"
                         )
@@ -38,7 +38,7 @@ public class GaaraPower extends Power {
             if (block.isPassable()) isPassable = true;
             else if (isPassable) {
                 Location loc = block.getLocation();
-                BlockUtils.forEachBlockInCenteredCube(loc, 7, (b) -> {
+                BlockUtils.forEachBlockInCenteredCube(loc, 9, (b) -> {
                     if (!b.isPassable()) return;
                     b.setType(Material.SAND);
                 });

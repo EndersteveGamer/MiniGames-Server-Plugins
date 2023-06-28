@@ -17,8 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 public class Main extends JavaPlugin {
     private static Main INSTANCE;
@@ -54,7 +52,8 @@ public class Main extends JavaPlugin {
                 new UpdateItems(),
                 new TickPowers(),
                 new OldPvp(),
-                new RemoveFire()
+                new RemoveFire(),
+                new GiveEffects()
         );
 
         for (BukkitRunnable runnable : runnables) {

@@ -17,7 +17,7 @@ public class KokushiboPower extends Power {
     private static final double PROJECTILE_SPEED = 2;
     private static final double PROJECTILE_RADIUS = 5;
     private static final int PROJECTILE_DAMAGE = 2;
-    private static final int SHOOT_FREQUENCY = 10;
+    private static final int SHOOT_FREQUENCY = 20;
     private final HashMap<UUID, Integer> tickCount = new HashMap<>();
     private final HashMap<UUID, ArrayList<MoonProjectile>> projectiles = new HashMap<>();
     private final HashMap<UUID, Integer> shooting = new HashMap<>();
@@ -30,9 +30,9 @@ public class KokushiboPower extends Power {
                         "Breath of the Moon",
                         "moon_breath",
                         List.of(
-                                "Launches 16 moon shard projectiles",
+                                "Launches " + PROJECTILES_NUM + " moon shard projectiles",
                                 "to where you are looking,",
-                                "making 1 heart of true damage on hit",
+                                "making " + PROJECTILE_DAMAGE/2 + " heart of true damage on hit",
                                 "(1 min cooldown)"
                         )
                 )
