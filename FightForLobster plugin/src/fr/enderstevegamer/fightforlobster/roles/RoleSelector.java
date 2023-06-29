@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -14,11 +15,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class RoleSelector {
+    private static final HashMap<UUID, Boolean> isRandom = new HashMap<>();
     private static final String INVENTORY_NAME = ChatColor.GOLD + "Role Selector";
-    public static Inventory getSelectorInventory() {
+    public static Inventory getSelectorInventory(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 6*9, INVENTORY_NAME);
         for (Role role : Role.values()) {
             ItemStack item = new ItemStack(Material.GRASS_BLOCK);
@@ -30,7 +34,33 @@ public class RoleSelector {
             item.setItemMeta(meta);
             inventory.addItem(item);
         }
+        inventory.setItem(53, getRandomItem(player));
         return inventory;
+    }
+
+    private static ItemStack getRandomItem(Player player) {
+        ItemStack item = new ItemStack(Material.NETHER_STAR);
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return item;
+        meta.setDisplayName((isRandomEnabled(player)) ? ChatColor.GREEN + "Random Role: Enabled"
+                : ChatColor.RED + "Random Role: Disabled");
+        meta.setLocalizedName("random_role_toggle");
+        meta.addItemFlags(ItemFlag.values());
+        meta.setLore(List.of(
+                "Gives you a random role",
+                "after each death"
+        ));
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    private static boolean isRandomEnabled(Player player) {
+        return isRandom.containsKey(player.getUniqueId()) && isRandom.get(player.getUniqueId());
+    }
+
+    private static void toggleRandom(Player player) {
+        if (!isRandom.containsKey(player.getUniqueId())) isRandom.put(player.getUniqueId(), true);
+        else isRandom.put(player.getUniqueId(), !isRandom.get(player.getUniqueId()));
     }
 
     private static List<String> buildLore(Role role) {
@@ -93,6 +123,11 @@ public class RoleSelector {
         if (item == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
+        if (meta.getLocalizedName().equals("random_role_toggle")) {
+            toggleRandom(player);
+            player.openInventory(getSelectorInventory(player));
+            return;
+        }
         String name = meta.getDisplayName();
         for (Role role : Role.values()) {
             if (role.toString().equals(name)) {
@@ -102,5 +137,11 @@ public class RoleSelector {
                 return;
             }
         }
+    }
+
+    public static void onPlayerDeath(PlayerDeathEvent event) {
+        Role role = Role.values()[(int) (Math.random() * Role.values().length)];
+        if (isRandomEnabled(event.getEntity())) Roles.setPlayerRole(event.getEntity(), role);
+        event.getEntity().sendMessage(ChatColor.GREEN + "You received the role " + role.toString() + "!");
     }
 }

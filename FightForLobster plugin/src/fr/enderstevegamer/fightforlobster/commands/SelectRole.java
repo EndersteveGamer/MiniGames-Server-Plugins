@@ -11,7 +11,7 @@ public class SelectRole implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player player)) return true;
-        player.openInventory(RoleSelector.getSelectorInventory());
+        player.openInventory(RoleSelector.getSelectorInventory(player));
         return true;
     }
 }

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
@@ -43,12 +44,27 @@ public class PowerUtils {
 
     public static void damageThroughArmor(Player player, double damage, @Nullable Entity cause) {
         if (player.getNoDamageTicks() > 0) return;
-        player.damage(1);
+        player.damage(1, cause);
         if (player.getHealth() - damage < 0) player.setHealth(0);
         else player.setHealth(player.getHealth() - damage);
     }
 
     public static void damageThroughArmor(Player player, double damage) {
         damageThroughArmor(player, damage, null);
+    }
+
+    public static Location getTargetedLocation(Player player, int maxDistance) {
+        BlockIterator iterator = new BlockIterator(player.getLocation(), 0, maxDistance);
+        Location loc = null;
+        while (iterator.hasNext()) loc = iterator.next().getLocation();
+        return loc;
+    }
+
+    public static Vector vectorFromLocations(Location start, Location end) {
+        return new Vector(
+                end.getX() - start.getX(),
+                end.getY() - start.getY(),
+                end.getZ() - start.getZ()
+        );
     }
 }

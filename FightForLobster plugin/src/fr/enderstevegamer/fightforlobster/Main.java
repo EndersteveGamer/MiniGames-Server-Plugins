@@ -5,6 +5,8 @@ import fr.enderstevegamer.fightforlobster.commands.GiveRoleItem;
 import fr.enderstevegamer.fightforlobster.commands.SelectRole;
 import fr.enderstevegamer.fightforlobster.commands.tabcompleters.GiveRoleCompleter;
 import fr.enderstevegamer.fightforlobster.listeners.*;
+import fr.enderstevegamer.fightforlobster.roles.Role;
+import fr.enderstevegamer.fightforlobster.roles.Roles;
 import fr.enderstevegamer.fightforlobster.runnables.*;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -29,6 +31,7 @@ public class Main extends JavaPlugin {
             if (player.getGameMode().equals(GameMode.SURVIVAL) || player.getGameMode().equals(GameMode.ADVENTURE)) {
                 player.setAllowFlight(false);
             }
+            Roles.setPlayerRole(player, Role.NORMAL_PLAYER);
         }
 
         // Register listeners
@@ -39,7 +42,9 @@ public class Main extends JavaPlugin {
                 new OnEntityDamage(),
                 new OnPlayerMove(),
                 new OnPlayerDeath(),
-                new OnInventoryClick()
+                new OnInventoryClick(),
+                new OnEntityDeath(),
+                new OnPlayerJoin()
         );
 
         for (Listener listener : listeners) {

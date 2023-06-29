@@ -3,7 +3,9 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.powers.Power;
 import fr.enderstevegamer.fightforlobster.utils.BlockUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BlockIterator;
@@ -12,6 +14,7 @@ import java.util.List;
 
 public class YugitoPower extends Power {
     private static final double RADIUS = 24;
+    private static final int PARTICLE_COUNT = 300;
     public YugitoPower() {
         super(
                 60000,
@@ -42,6 +45,10 @@ public class YugitoPower extends Power {
                     if (!b.isPassable()) return;
                     b.setType(Material.FIRE);
                 });
+                for (int i = 0; i < PARTICLE_COUNT; i++) {
+                    Location loc = BlockUtils.randomPointInSphere(block.getLocation(), RADIUS);
+                    player.getWorld().spawnParticle(Particle.FLAME, loc, 0);
+                }
                 return true;
             }
         }

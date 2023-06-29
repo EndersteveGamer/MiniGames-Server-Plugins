@@ -3,13 +3,16 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.powers.Power;
 import fr.enderstevegamer.fightforlobster.utils.BlockUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public class AkazaPower extends Power {
     private static final double RADIUS = 8;
+    private static final int PARTICLE_COUNT = 50;
     public AkazaPower() {
         super(
                 60000,
@@ -29,9 +32,12 @@ public class AkazaPower extends Power {
 
     @Override
     public boolean onActivation(Player player) {
-        BlockUtils.forEachSphereBlock(player.getLocation(), RADIUS, (b) -> {
-            b.setType(Material.AIR);
-        });
+        BlockUtils.forEachSphereBlock(player.getLocation(), RADIUS, (b) -> b.setType(Material.AIR));
+        player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1);
+        for (int i = 0; i < PARTICLE_COUNT; i++) {
+            Location loc = BlockUtils.randomPointInSphere(player.getLocation(), RADIUS);
+            player.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, loc, 0);
+        }
         return true;
     }
 }

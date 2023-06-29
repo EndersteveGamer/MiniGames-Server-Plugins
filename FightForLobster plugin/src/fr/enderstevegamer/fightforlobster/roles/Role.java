@@ -261,6 +261,24 @@ public enum Role {
             ),
             0.8f
     ),
+    KAKUZU(
+            "Kakuzu",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.2),
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.8),
+                    new RoleModifier(RoleModifierType.HEALTH, 10)
+            )
+    ),
+    SASORI(
+            "Sasori",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.2),
+                    new RoleModifier(RoleModifierType.HEALTH, 2)
+            ),
+            1.4f
+    ),
     NORMAL_PLAYER("A normal player");
 
     private final String DISPLAY_NAME;

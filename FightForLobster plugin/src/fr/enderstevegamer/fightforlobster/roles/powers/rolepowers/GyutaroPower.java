@@ -2,9 +2,8 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.powers.Power;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import fr.enderstevegamer.fightforlobster.utils.BlockUtils;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -13,6 +12,7 @@ import java.util.List;
 
 public class GyutaroPower extends Power {
     private static final double RADIUS = 10;
+    private static final double PARTICLE_COUNT = 50;
     public GyutaroPower() {
         super(
                 60000,
@@ -41,6 +41,12 @@ public class GyutaroPower extends Power {
             ));
             player1.sendMessage(ChatColor.RED + "You were withered by " + player.getName());
             activated = true;
+        }
+        if (activated) {
+            for (int i = 0; i < PARTICLE_COUNT; i++) {
+                Location loc = BlockUtils.randomPointInSphere(player.getLocation(), RADIUS);
+                player.getWorld().spawnParticle(Particle.REDSTONE, loc, 1);
+            }
         }
         return activated;
     }

@@ -36,7 +36,9 @@ public class Powers {
             new AkazaPower(),
             new DomaPower(),
             new KokushiboPower(),
-            new HidanPower()
+            new HidanPower(),
+            new KakuzuPower(),
+            new SasoriPower()
     );
 
     public static void forEach(Consumer<Power> consumer) {

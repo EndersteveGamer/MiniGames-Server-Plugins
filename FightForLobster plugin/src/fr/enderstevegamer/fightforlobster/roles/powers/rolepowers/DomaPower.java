@@ -3,9 +3,10 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.Roles;
 import fr.enderstevegamer.fightforlobster.roles.powers.DurationPower;
-import fr.enderstevegamer.fightforlobster.roles.powers.Power;
 import fr.enderstevegamer.fightforlobster.utils.BlockUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
@@ -19,8 +20,10 @@ import java.util.UUID;
 public class DomaPower extends DurationPower {
     private final ArrayList<UUID> isOnIce = new ArrayList<>();
     private final HashMap<UUID, ArrayList<BlockState>> blocks = new HashMap<>();
+    private final HashMap<UUID, Location> spheres = new HashMap<>();
     private static final double RADIUS = 24;
     private static final float SPEED = 1.6f;
+    private static final int PARTICLES_PER_TICK = 30;
     public DomaPower() {
         super (
                 60000,
@@ -48,6 +51,7 @@ public class DomaPower extends DurationPower {
     @Override
     public boolean onActivation(Player player) {
         blocks.put(player.getUniqueId(), new ArrayList<>());
+        spheres.put(player.getUniqueId(), player.getLocation());
         BlockUtils.forEachSphereBlock(player.getLocation(), RADIUS, (b) -> {
             if (b.isPassable()) b.setType(Material.AIR);
             else {
@@ -72,13 +76,14 @@ public class DomaPower extends DurationPower {
             state.update(true);
         }
         blocks.remove(player.getUniqueId());
+        spheres.remove(player.getUniqueId());
     }
 
     @Override
     public void tickAlways(Player player) {
         if (!Roles.getPlayerRole(player).equals(getRole())) return;
         Block block = player.getLocation().getBlock().getRelative(0, -1, 0);
-        if (!block.getType().equals(Material.BLUE_ICE)) {
+        if (!isOnOwnIce(player)) {
             boolean wasRemoved = isOnIce.remove(player.getUniqueId());
             if (wasRemoved) player.setWalkSpeed(player.getWalkSpeed() * (1/SPEED));
         }
@@ -86,31 +91,34 @@ public class DomaPower extends DurationPower {
             isOnIce.add(player.getUniqueId());
             player.setWalkSpeed(player.getWalkSpeed() * SPEED);
         }
+        for (Location loc : spheres.values()) {
+            for (int i = 0; i < PARTICLES_PER_TICK; i++) {
+                Location particleLoc = BlockUtils.randomPointInSphere(loc, RADIUS);
+                player.getWorld().spawnParticle(Particle.SNOWFLAKE, particleLoc, 0, 0, -0.5, 0);
+            }
+        }
     }
 
     @Override
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player damaged)) return;
         if (!(event.getDamager() instanceof Player damager)) return;
-        if (damaged.getLocation().getBlock().getRelative(0, -1, 0).getType().equals(Material.BLUE_ICE)) {
-            attackOnIce(damaged, event);
-        }
-        if (damager.getLocation().getBlock().getRelative(0, -1, 0).getType().equals(Material.BLUE_ICE)) {
-            attackFromIce(damager, event);
-        }
+        if (isOnOwnIce(damager)) event.setDamage(event.getDamage() * 1.1);
+        if (isOnOwnIce(damaged)) event.setDamage(event.getDamage() * 0.9);
+        if (isOnEnemyIce(damager)) event.setDamage(event.getDamage() * 0.9);
+        if (isOnEnemyIce(damaged)) event.setDamage(event.getDamage() * 1.1);
     }
 
-    private void attackOnIce(Player damaged, EntityDamageByEntityEvent event) {
-        if (Roles.getPlayerRole(damaged).equals(getRole())) {
-            event.setDamage(event.getDamage() * 0.9);
-        }
-        else event.setDamage(event.getDamage() * 1.1);
+    private boolean isOnOwnIce(Player player) {
+        if (!spheres.containsKey(player.getUniqueId())) return false;
+        return spheres.get(player.getUniqueId()).distance(player.getLocation()) <= RADIUS;
     }
 
-    private void attackFromIce(Player damager, EntityDamageByEntityEvent event) {
-        if (Roles.getPlayerRole(damager).equals(getRole())) {
-            event.setDamage(event.getDamage() * 1.1);
+    private boolean isOnEnemyIce(Player player) {
+        for (UUID uuid : spheres.keySet()) {
+            if (uuid.equals(player.getUniqueId())) continue;
+            if (spheres.get(uuid).distance(player.getLocation()) < RADIUS) return true;
         }
-        else event.setDamage(event.getDamage() * 0.9);
+        return false;
     }
 }
