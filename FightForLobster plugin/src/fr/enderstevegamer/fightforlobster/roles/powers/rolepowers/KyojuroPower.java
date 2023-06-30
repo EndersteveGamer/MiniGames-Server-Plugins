@@ -53,6 +53,7 @@ public class KyojuroPower extends DurationPower {
 
     @Override
     protected void onEnd(Player player) {
+        if (!spheres.containsKey(player.getUniqueId())) {spheres.remove(player.getUniqueId()); return;}
         BlockUtils.forEachSphereBlock(spheres.get(player.getUniqueId()), RADIUS,
                 (b) -> {
             if (b.getType().equals(Material.FIRE)) b.setType(Material.AIR);

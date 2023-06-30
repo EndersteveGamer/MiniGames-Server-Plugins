@@ -13,6 +13,10 @@ public enum Role {
                     new ShortPotionEffect(
                             PotionEffectType.WATER_BREATHING,
                             1
+                    ),
+                    new ShortPotionEffect(
+                            PotionEffectType.DOLPHINS_GRACE,
+                            1
                     )
             ),
             List.of(
@@ -89,7 +93,7 @@ public enum Role {
             "Rui",
             List.of(),
             List.of(
-                    new RoleModifier(RoleModifierType.RESISTANCE, 0.8),
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.7),
                     new RoleModifier(RoleModifierType.STRENGTH, 1.3)
             )
     ),
@@ -97,7 +101,8 @@ public enum Role {
             "Enmu",
             List.of(),
             List.of(
-                    new RoleModifier(RoleModifierType.STRENGTH, 1.2)
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.3),
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.8)
             ),
             1.2f
     ),
@@ -276,6 +281,15 @@ public enum Role {
             List.of(
                     new RoleModifier(RoleModifierType.STRENGTH, 1.2),
                     new RoleModifier(RoleModifierType.HEALTH, 2)
+            ),
+            1.4f
+    ),
+    DEIDARA(
+            "Deidara",
+            List.of(),
+            List.of(
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.8),
+                    new RoleModifier(RoleModifierType.STRENGTH, 1.2)
             ),
             1.4f
     ),

@@ -45,7 +45,8 @@ public class GyutaroPower extends Power {
         if (activated) {
             for (int i = 0; i < PARTICLE_COUNT; i++) {
                 Location loc = BlockUtils.randomPointInSphere(player.getLocation(), RADIUS);
-                player.getWorld().spawnParticle(Particle.REDSTONE, loc, 1);
+                player.getWorld().spawnParticle(Particle.REDSTONE, loc, 1, 0, 0, 0, 1,
+                        new Particle.DustOptions(Color.RED, 1));
             }
         }
         return activated;

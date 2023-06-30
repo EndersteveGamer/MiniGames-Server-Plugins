@@ -1,14 +1,20 @@
 package fr.enderstevegamer.fightforlobster.utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class BlockUtils {
+    private static final HashMap<Block, Long> liquidsFrozen = new HashMap<>();
     public static ArrayList<Block> getSphereBlocks(Location center, double radius) {
         ArrayList<Block> result = new ArrayList<>();
         for (int x = (int) (-radius - 1); x < radius + 1; x++) {
@@ -95,6 +101,34 @@ public class BlockUtils {
                                                 Consumer<Location> consumer) {
         for (Location loc : lineLocsBetweenPos(start, end, quality)) {
             consumer.accept(loc);
+        }
+    }
+
+    public static void dontUpdateLiquid(@NotNull Block block, Long time) {
+        if (!block.isLiquid()) return;
+        liquidsFrozen.put(block, (time == null) ? null : System.currentTimeMillis() + time);
+    }
+
+    public static void dontUpdateLiquid(Block block) {
+        dontUpdateLiquid(block, null);
+    }
+
+    public static void tickFrozenLiquids() {
+        ArrayList<Block> toRemove = new ArrayList<>();
+        for (Block block : liquidsFrozen.keySet()) {
+            if (!block.getLocation().getBlock().isLiquid()) toRemove.add(block);
+            if (liquidsFrozen.get(block) != null
+                    && System.currentTimeMillis() > liquidsFrozen.get(block)) toRemove.add(block);
+        }
+        for (Block block : toRemove) liquidsFrozen.remove(block);
+    }
+
+    public static void onLiquidFlow(BlockFromToEvent event) {
+        for (Block block : liquidsFrozen.keySet()) {
+            if (block.getLocation().equals(event.getBlock().getLocation())) {
+                event.setCancelled(true);
+                return;
+            }
         }
     }
 }

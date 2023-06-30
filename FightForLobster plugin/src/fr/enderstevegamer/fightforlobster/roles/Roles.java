@@ -22,7 +22,6 @@ import java.util.function.Consumer;
 public class Roles {
     private static final HashMap<UUID, Role> playerRoles = new HashMap<>();
     private static final List<Consumer<Player>> playerFunctions = List.of(
-            Roles::enchantItems,
             Roles::tickObanai
     );
 
@@ -85,24 +84,6 @@ public class Roles {
             }
             Role role = Roles.getPlayerRole(player);
             player.addPotionEffects(role.getPotionEffects());
-        }
-    }
-
-    private static void enchantItems(Player player) {
-        PlayerInventory inventory = player.getInventory();
-        switch (Roles.getPlayerRole(player)) {
-            case GIYU -> {
-                ItemStack item = inventory.getBoots();
-                if (item == null) break;
-                item.addUnsafeEnchantment(Enchantment.DEPTH_STRIDER, 3);
-            }
-            case KYOJURO -> {
-                for (ItemStack item : inventory) {
-                    if (item == null) continue;
-                    if (!isSword(item)) continue;
-                    item.addEnchantment(Enchantment.FIRE_ASPECT, 2);
-                }
-            }
         }
     }
 

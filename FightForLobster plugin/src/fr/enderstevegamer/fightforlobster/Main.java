@@ -1,5 +1,6 @@
 package fr.enderstevegamer.fightforlobster;
 
+import fr.enderstevegamer.fightforlobster.commands.GetCombatTracker;
 import fr.enderstevegamer.fightforlobster.commands.GiveRole;
 import fr.enderstevegamer.fightforlobster.commands.GiveRoleItem;
 import fr.enderstevegamer.fightforlobster.commands.SelectRole;
@@ -44,7 +45,8 @@ public class Main extends JavaPlugin {
                 new OnPlayerDeath(),
                 new OnInventoryClick(),
                 new OnEntityDeath(),
-                new OnPlayerJoin()
+                new OnPlayerJoin(),
+                new OnProjectileLand()
         );
 
         for (Listener listener : listeners) {
@@ -58,7 +60,9 @@ public class Main extends JavaPlugin {
                 new TickPowers(),
                 new OldPvp(),
                 new RemoveFire(),
-                new GiveEffects()
+                new GiveEffects(),
+                new PreventDamageLoops(),
+                new TickFrozenLiquids()
         );
 
         for (BukkitRunnable runnable : runnables) {
@@ -69,6 +73,7 @@ public class Main extends JavaPlugin {
         registerCommand("giverole", new GiveRole(), new GiveRoleCompleter());
         registerCommand("giveroleitem", new GiveRoleItem(), new GiveRoleCompleter());
         registerCommand("selectrole", new SelectRole());
+        registerCommand("getcombattracker", new GetCombatTracker());
 
         Bukkit.getLogger().info("The plugin " + this.getName() + " was enabled sucessfully!");
     }

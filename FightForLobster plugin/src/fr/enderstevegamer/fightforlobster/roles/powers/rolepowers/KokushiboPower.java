@@ -80,18 +80,15 @@ public class KokushiboPower extends Power {
 
     private static class MoonProjectile {
         private final Location loc;
-        private double projectileTick;
         private final UUID shooter;
         private boolean remove;
         public MoonProjectile(Location loc, Player shooter) {
             this.loc = loc;
-            this.projectileTick = 0;
             this.shooter = shooter.getUniqueId();
             remove = false;
         }
 
         public void tickProjectile() {
-            this.projectileTick++;
             this.loc.add(this.loc.getDirection().clone().multiply(PROJECTILE_SPEED));
             createParticle();
             damagePlayers();
@@ -112,7 +109,6 @@ public class KokushiboPower extends Power {
             World world = this.loc.getWorld();
             if (world == null) return;
             Location location = this.loc.clone();
-            location.setDirection(this.loc.getDirection().rotateAroundY((projectileTick % 5 / 5) * 360));
             world.spawnParticle(Particle.SWEEP_ATTACK, location, 1);
         }
 

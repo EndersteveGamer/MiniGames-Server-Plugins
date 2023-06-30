@@ -28,7 +28,7 @@ public class SasoriPower extends Power {
     private static final int PUPPET_DAMAGE = 2;
     private static final int HIRUKO_DAMAGE = 4;
     private static final int HIRUKO_THORNS = 2;
-    private static final int HIRUKO_POISON_RADIUS = 2;
+    private static final int HIRUKO_POISON_RADIUS = 4;
     private static final int HIRUKO_PARTICLES_PER_TICK = 10;
     private static final int SANDAIME_DAMAGE = 2;
     private static final double SANDAIME_RADIUS = 5;
@@ -107,13 +107,22 @@ public class SasoriPower extends Power {
             event.setCancelled(true);
             return;
         }
+        if (isSelfHarm(event)) return;
         checkHirukoThorns(event);
         if (!(event.getEntity() instanceof Player player)) return;
         Entity entity = event.getDamager();
         if (isSasoriPuppet(entity)) event.setCancelled(true);
-        if (isPuppet(entity)) PowerUtils.damageThroughArmor(player, PUPPET_DAMAGE, getPuppetOwner(entity));
-        if (isHiruko(entity)) PowerUtils.damageThroughArmor(player, HIRUKO_DAMAGE, getPuppetOwner(entity));
-        if (isSandaime(entity)) PowerUtils.damageThroughArmor(player, SANDAIME_DAMAGE, getPuppetOwner(entity));
+        if (isPuppet(entity)) PowerUtils.damageThroughArmor(player, PUPPET_DAMAGE, puppetOwner);
+        if (isHiruko(entity)) PowerUtils.damageThroughArmor(player, HIRUKO_DAMAGE, puppetOwner);
+        if (isSandaime(entity)) PowerUtils.damageThroughArmor(player, SANDAIME_DAMAGE, puppetOwner);
+    }
+
+    private boolean isSelfHarm(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player damaged)) return false;
+        Player puppetOwner = getPuppetOwner(event.getDamager());
+        if (puppetOwner == null) return false;
+        if (damaged.getUniqueId().equals(puppetOwner.getUniqueId())) {event.setCancelled(true); return true;};
+        return false;
     }
 
     private Player getPuppetOwner(Entity entity) {
@@ -199,7 +208,7 @@ public class SasoriPower extends Power {
         return golem.getUniqueId();
     }
 
-    private UUID buildSandaime(@NotNull World world, Location loc) {
+    private @NotNull UUID buildSandaime(@NotNull World world, Location loc) {
         final int HEALTH = 60;
         final double SPEED = 2;
         final String NAME = ChatColor.RED + "Sandaime Kazekage";
@@ -333,7 +342,6 @@ public class SasoriPower extends Power {
             if (mob.getLocation().distance(player1.getLocation()) < minDistance) minDistance
                     = mob.getLocation().distance(player1.getLocation());
         }
-        if (player == null) return;
         mob.setTarget(player);
     }
 

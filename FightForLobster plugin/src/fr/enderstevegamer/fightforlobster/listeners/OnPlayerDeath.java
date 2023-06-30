@@ -3,6 +3,7 @@ package fr.enderstevegamer.fightforlobster.listeners;
 import fr.enderstevegamer.fightforlobster.roles.RoleSelector;
 import fr.enderstevegamer.fightforlobster.roles.powers.Powers;
 import fr.enderstevegamer.fightforlobster.utils.DeathUtils;
+import fr.enderstevegamer.fightforlobster.utils.combattracker.CombatTrackerUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -13,5 +14,6 @@ public class OnPlayerDeath implements Listener {
         Powers.onPlayerDeath(event.getEntity());
         DeathUtils.onPlayerDeath(event);
         RoleSelector.onPlayerDeath(event);
+        CombatTrackerUtils.onPlayerDeath(event);
     }
 }

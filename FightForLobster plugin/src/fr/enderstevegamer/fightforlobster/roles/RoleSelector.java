@@ -141,7 +141,9 @@ public class RoleSelector {
 
     public static void onPlayerDeath(PlayerDeathEvent event) {
         Role role = Role.values()[(int) (Math.random() * Role.values().length)];
-        if (isRandomEnabled(event.getEntity())) Roles.setPlayerRole(event.getEntity(), role);
-        event.getEntity().sendMessage(ChatColor.GREEN + "You received the role " + role.toString() + "!");
+        if (isRandomEnabled(event.getEntity())) {
+            Roles.setPlayerRole(event.getEntity(), role);
+            event.getEntity().sendMessage(ChatColor.GREEN + "You received the role " + role.toString() + "!");
+        }
     }
 }

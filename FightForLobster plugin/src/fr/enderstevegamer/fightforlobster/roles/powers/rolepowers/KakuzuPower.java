@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class KakuzuPower extends DurationPower {
-    private static final double ACTIVATION_CHANCE = 0.1;
     private static final double POS_VERTICAL_MULT = 1;
     private static final double POS_HORIZ_MULT = 1.5;
     private static final double POS_VERTICAL_OFFSET = -1.5;
@@ -53,7 +52,7 @@ public class KakuzuPower extends DurationPower {
                         "mask_invocation",
                         List.of(
                                 "Invokes masks behind you",
-                                "Each mask has a " + (int)(ACTIVATION_CHANCE*100) + "% chance",
+                                "Each mask has a " + (int)(MASK_ACTIVATION_CHANCE*100) + "% chance",
                                 "of activating",
                                 "Raiton: Strikes the enemy with lighting",
                                 "Futon: Knockbacks the enemy",
