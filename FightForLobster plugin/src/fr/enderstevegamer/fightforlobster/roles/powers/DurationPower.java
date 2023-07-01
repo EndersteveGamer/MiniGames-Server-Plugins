@@ -19,12 +19,12 @@ public abstract class DurationPower extends Power {
 
     @Override
     public ItemStack getItem(Player player) {
-        ItemStack item = new ItemStack(getPowerItem().getMaterial());
+        ItemStack item = new ItemStack(getPowerItem().material());
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return item;
-        meta.setDisplayName(ChatColor.GOLD + getPowerItem().getDisplayName());
-        meta.setLocalizedName(getPowerItem().getId());
-        if (getPowerItem().getLore() != null) meta.setLore(getPowerItem().getLore());
+        meta.setDisplayName(ChatColor.GOLD + getPowerItem().displayName());
+        meta.setLocalizedName(getPowerItem().id());
+        if (getPowerItem().lore() != null) meta.setLore(getPowerItem().lore());
         item.setItemMeta(meta);
         if (player == null) return item;
         if (isPowerActive(player)) addTimeLeftIndication(item, player);
@@ -36,7 +36,7 @@ public abstract class DurationPower extends Power {
         if (item == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
-        meta.setDisplayName(ChatColor.GREEN + getPowerItem().getDisplayName() +
+        meta.setDisplayName(ChatColor.GREEN + getPowerItem().displayName() +
                 " (" + getPowerLeft(player) + "s left)");
         item.setItemMeta(meta);
     }

@@ -3,7 +3,6 @@ package fr.enderstevegamer.fightforlobster.listeners;
 import fr.enderstevegamer.fightforlobster.roles.Roles;
 import fr.enderstevegamer.fightforlobster.roles.powers.Powers;
 import fr.enderstevegamer.fightforlobster.runnables.PreventDamageLoops;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class MuichiroPower extends DurationPower {
     private static final double RADIUS = 16;
     private static final int PARTICLES_PER_TICK = 50;
-    HashMap<UUID, Location> spheres = new HashMap<>();
+    private final HashMap<UUID, Location> spheres = new HashMap<>();
     public MuichiroPower() {
         super(
                 60000,

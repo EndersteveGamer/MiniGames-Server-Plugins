@@ -1,19 +1,17 @@
 package fr.enderstevegamer.fightforlobster.commands;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
-import fr.enderstevegamer.fightforlobster.roles.Roles;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Objects;
 import java.util.function.BiFunction;
 
 public class CommonCommands {
-    public static boolean onPlayerRoleSelect(CommandSender commandSender, Command command, String s, String[] strings,
-                                      BiFunction<Player, Role, String> function) {
+    public static boolean onPlayerRoleSelect(CommandSender commandSender, Command ignoredCommand, String ignoredS, String[] strings,
+                                             BiFunction<Player, Role, String> function) {
         if (!commandSender.isOp()) {
             commandSender.sendMessage(ChatColor.RED + "You must be an operator to do this!");
             return true;

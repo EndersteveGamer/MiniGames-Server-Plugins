@@ -1,6 +1,5 @@
 package fr.enderstevegamer.fightforlobster.roles;
 
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -11,7 +10,6 @@ public class ShortPotionEffect {
     public ShortPotionEffect(PotionEffectType effectType, int level) {
         this.effectType = effectType;
         this.level = level;
-        Player player;
     }
 
     public ShortPotionEffect(PotionEffectType effectType) {

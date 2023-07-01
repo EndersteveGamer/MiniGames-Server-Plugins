@@ -49,6 +49,7 @@ public class PowerUtils {
         else player.setHealth(player.getHealth() - damage);
     }
 
+    @SuppressWarnings("unused")
     public static void damageThroughArmor(Player player, double damage) {
         damageThroughArmor(player, damage, null);
     }

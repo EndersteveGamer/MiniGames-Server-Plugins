@@ -3,7 +3,6 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.Roles;
 import fr.enderstevegamer.fightforlobster.roles.powers.Power;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -22,7 +21,7 @@ public class DakiPower extends Power {
             Material.YELLOW_WOOL,
             Material.BLACK_WOOL
     );
-    private final float SPEED_BOOST = 1.6f;
+
     public DakiPower() {
         super(
                 10000,
@@ -55,18 +54,22 @@ public class DakiPower extends Power {
 
     public boolean spawnObi(Location loc) {
         BlockIterator iterator = new BlockIterator(loc, 0, LENGTH);
+        boolean wasActivated = false;
         while (iterator.hasNext()) {
             Block block = iterator.next();
-            if (block.isPassable() || OBI_MATERIALS.contains(block.getType())) block.setType(
-                    switch ((int)(block.getLocation().distance(loc) % 6)) {
-                        case 0, 1, 3, 4 -> Material.MAGENTA_WOOL;
-                        case 2 -> Material.YELLOW_WOOL;
-                        default -> Material.BLACK_WOOL;
-                    }
-            );
-            else return true;
+            if (block.isPassable() || OBI_MATERIALS.contains(block.getType())) {
+                block.setType(
+                        switch ((int) (block.getLocation().distance(loc) % 6)) {
+                            case 0, 1, 3, 4 -> Material.MAGENTA_WOOL;
+                            case 2 -> Material.YELLOW_WOOL;
+                            default -> Material.BLACK_WOOL;
+                        }
+                );
+                wasActivated = true;
+            }
+            else break;
         }
-        return true;
+        return wasActivated;
     }
 
     @Override
@@ -82,6 +85,7 @@ public class DakiPower extends Power {
         }
         else {
             if (!OBI_MATERIALS.contains(material)) return;
+            float SPEED_BOOST = 1.6f;
             player.setWalkSpeed(0.2f * SPEED_BOOST);
             isOnObi.put(player.getUniqueId(), true);
         }

@@ -23,7 +23,7 @@ public class GiveRoleItem implements CommandExecutor {
             if (!power.getRole().equals(role)) continue;
             player.getInventory().addItem(power.getItem(player));
             gaveItem = true;
-            player.sendMessage(ChatColor.GREEN + "Gave you the " + power.getPowerItem().getDisplayName() + " item");
+            player.sendMessage(ChatColor.GREEN + "Gave you the " + power.getPowerItem().displayName() + " item");
         }
         if (!gaveItem) {
             return ChatColor.RED + "There is no item for this role!";

@@ -7,7 +7,6 @@ import fr.enderstevegamer.fightforlobster.utils.BlockUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -82,7 +81,6 @@ public class DomaPower extends DurationPower {
     @Override
     public void tickAlways(Player player) {
         if (!Roles.getPlayerRole(player).equals(getRole())) return;
-        Block block = player.getLocation().getBlock().getRelative(0, -1, 0);
         if (!isOnOwnIce(player)) {
             boolean wasRemoved = isOnIce.remove(player.getUniqueId());
             if (wasRemoved) player.setWalkSpeed(player.getWalkSpeed() * (1/SPEED));

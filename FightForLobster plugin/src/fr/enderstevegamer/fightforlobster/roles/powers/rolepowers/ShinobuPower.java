@@ -44,7 +44,7 @@ public class ShinobuPower extends Power {
         if (attribute == null) return false;
         attribute.setBaseValue(attribute.getBaseValue() - 2);
         selectedPlayer.sendMessage(ChatColor.RED + player.getName() + " made you lose a heart with the "
-                + getPowerItem().getDisplayName());
+                + getPowerItem().displayName());
         return true;
     }
 }

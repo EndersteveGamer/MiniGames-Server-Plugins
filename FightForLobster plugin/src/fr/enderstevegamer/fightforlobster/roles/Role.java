@@ -244,10 +244,10 @@ public enum Role {
             "Killer Bee",
             List.of(),
             List.of(
-                    new RoleModifier(RoleModifierType.RESISTANCE, 0.6),
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.3),
                     new RoleModifier(RoleModifierType.HEALTH, 4)
             ),
-            1.3f
+            1.4f
     ),
     NARUTO(
             "Naruto",
@@ -315,6 +315,7 @@ public enum Role {
         this(displayName, roleEffects, List.of());
     }
 
+    @SuppressWarnings("SameParameterValue")
     Role(String displayName) {
         this(displayName, List.of());
     }

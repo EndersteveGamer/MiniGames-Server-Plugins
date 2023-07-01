@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class GyokkoPower extends DurationPower {
-    ArrayList<UUID> thorned = new ArrayList<>();
+    private final ArrayList<UUID> thorned = new ArrayList<>();
     public GyokkoPower() {
         super(
                 60000,

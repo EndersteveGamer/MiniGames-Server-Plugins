@@ -2,9 +2,6 @@ package fr.enderstevegamer.fightforlobster.listeners;
 
 import fr.enderstevegamer.fightforlobster.roles.powers.Powers;
 import fr.enderstevegamer.fightforlobster.roles.powers.rolepowers.EnmuPower;
-import fr.enderstevegamer.fightforlobster.utils.combattracker.CombatTrackerUtils;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +14,5 @@ public class OnEntityDamage implements Listener {
             event.setCancelled(true);
         }
         Powers.forEachPowerType(EnmuPower.class, (p) -> p.onDamage(event));
-        CombatTrackerUtils.onPlayerDamage(event);
     }
 }

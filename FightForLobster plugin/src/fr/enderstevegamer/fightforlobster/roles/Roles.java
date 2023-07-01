@@ -3,10 +3,8 @@ package fr.enderstevegamer.fightforlobster.roles;
 import fr.enderstevegamer.fightforlobster.roles.powers.Power;
 import fr.enderstevegamer.fightforlobster.roles.powers.Powers;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +32,7 @@ public class Roles {
         return getPlayerRole(player.getUniqueId());
     }
 
+    @SuppressWarnings("unused")
     public static void setPlayerRole(UUID uuid, Role role) {
         Player player = Bukkit.getPlayer(uuid);
         if (player == null) return;
@@ -85,18 +84,6 @@ public class Roles {
             Role role = Roles.getPlayerRole(player);
             player.addPotionEffects(role.getPotionEffects());
         }
-    }
-
-    private static boolean isSword(ItemStack item) {
-        final List<Material> swordMaterials = List.of(
-                Material.WOODEN_SWORD,
-                Material.STONE_SWORD,
-                Material.GOLDEN_SWORD,
-                Material.IRON_SWORD,
-                Material.DIAMOND_SWORD,
-                Material.NETHERITE_SWORD
-        );
-        return swordMaterials.contains(item.getType());
     }
 
     private static void tickObanai(Player player) {

@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class GiyuPower extends DurationPower {
     private static final double RADIUS = 16;
-    HashMap<UUID, Location> spheres = new HashMap<>();
+    private final HashMap<UUID, Location> spheres = new HashMap<>();
     public GiyuPower() {
         super(
                 60000,

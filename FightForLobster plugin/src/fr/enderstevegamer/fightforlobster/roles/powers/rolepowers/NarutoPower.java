@@ -66,9 +66,7 @@ public class NarutoPower extends DurationPower {
                 player.getLocation(),
                 targeted.getLocation(),
                 0.5,
-                (l) -> {
-                    player.getWorld().spawnParticle(Particle.SQUID_INK, l, 1);
-                }
+                (l) -> player.getWorld().spawnParticle(Particle.SQUID_INK, l, 1)
         );
         return true;
     }

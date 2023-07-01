@@ -121,7 +121,7 @@ public class SasoriPower extends Power {
         if (!(event.getEntity() instanceof Player damaged)) return false;
         Player puppetOwner = getPuppetOwner(event.getDamager());
         if (puppetOwner == null) return false;
-        if (damaged.getUniqueId().equals(puppetOwner.getUniqueId())) {event.setCancelled(true); return true;};
+        if (damaged.getUniqueId().equals(puppetOwner.getUniqueId())) {event.setCancelled(true); return true;}
         return false;
     }
 
@@ -355,6 +355,7 @@ public class SasoriPower extends Power {
             entity.remove();
         }
         managers.remove(player.getUniqueId());
+        super.onPlayerDeath(player);
     }
 
     private static class PuppetManager {

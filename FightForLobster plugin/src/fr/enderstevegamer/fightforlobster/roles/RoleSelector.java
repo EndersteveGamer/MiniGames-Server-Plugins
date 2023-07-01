@@ -97,7 +97,7 @@ public class RoleSelector {
         }
         lore.add("");
         List<String> powerLore = null;
-        for (Power power : Powers.getRolePowers(role)) {powerLore = power.getPowerItem().getLore(); break;}
+        for (Power power : Powers.getRolePowers(role)) {powerLore = power.getPowerItem().lore(); break;}
         if (powerLore == null) {
             lore.add("Power: None");
         }

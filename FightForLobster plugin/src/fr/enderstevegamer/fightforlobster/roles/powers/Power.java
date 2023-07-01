@@ -32,12 +32,12 @@ public abstract class Power {
     public final Role getRole() {return this.ROLE;}
 
     public ItemStack getItem(Player player) {
-        ItemStack item = new ItemStack(POWER_ITEM.getMaterial());
+        ItemStack item = new ItemStack(POWER_ITEM.material());
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return item;
-        meta.setDisplayName(ChatColor.GOLD + POWER_ITEM.getDisplayName());
-        meta.setLocalizedName(POWER_ITEM.getId());
-        if (POWER_ITEM.getLore() != null) meta.setLore(POWER_ITEM.getLore());
+        meta.setDisplayName(ChatColor.GOLD + POWER_ITEM.displayName());
+        meta.setLocalizedName(POWER_ITEM.id());
+        if (POWER_ITEM.lore() != null) meta.setLore(POWER_ITEM.lore());
         item.setItemMeta(meta);
         if (player == null) return item;
         if (getCooldownLeft(player) != -1) addCooldownIndication(item, player);
@@ -48,7 +48,7 @@ public abstract class Power {
         if (item == null) return;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
-        meta.setDisplayName(ChatColor.RED + getPowerItem().getDisplayName() +
+        meta.setDisplayName(ChatColor.RED + getPowerItem().displayName() +
                 " (" + getCooldownLeft(player) + "s)");
         item.setItemMeta(meta);
     }
@@ -89,7 +89,7 @@ public abstract class Power {
         if (item == null) return false;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return false;
-        return meta.getLocalizedName().equals(POWER_ITEM.getId());
+        return meta.getLocalizedName().equals(POWER_ITEM.id());
     }
 
     public final PowerItem getPowerItem() {
@@ -104,44 +104,19 @@ public abstract class Power {
 
     public void onPlayerDeath(Player player) {resetCooldown(player);}
 
-    public static class PowerItem {
-        private final Material material;
-        private final String displayName;
-        private final String id;
-        private final List<String> lore;
-
-        public PowerItem(Material material, String displayName, String id, List<String> lore) {
-            this.material = material;
-            this.displayName = displayName;
-            this.id = id;
-            if (lore == null) this.lore = null;
-            else {
-                List<String> formattedLore = new ArrayList<>();
-                for (String string : lore) {
-                    formattedLore.add(ChatColor.GRAY + string);
+    public record PowerItem(Material material, String displayName, String id, List<String> lore) {
+            public PowerItem(Material material, String displayName, String id, List<String> lore) {
+                this.material = material;
+                this.displayName = displayName;
+                this.id = id;
+                if (lore == null) this.lore = null;
+                else {
+                    List<String> formattedLore = new ArrayList<>();
+                    for (String string : lore) {
+                        formattedLore.add(ChatColor.GRAY + string);
+                    }
+                    this.lore = formattedLore;
                 }
-                this.lore = formattedLore;
             }
         }
-
-        public PowerItem(Material material, String displayName, String id) {
-            this(material, displayName, id, null);
-        }
-
-        public final Material getMaterial() {
-            return material;
-        }
-
-        public final String getDisplayName() {
-            return displayName;
-        }
-
-        public final String getId() {
-            return id;
-        }
-
-        public final List<String> getLore() {
-            return lore;
-        }
-    }
 }

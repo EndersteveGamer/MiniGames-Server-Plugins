@@ -1,13 +1,11 @@
 package fr.enderstevegamer.fightforlobster.utils;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +73,7 @@ public class BlockUtils {
         return getBlocksInCenteredCube(center, new Vector(size, size, size));
     }
 
+    @SuppressWarnings("unused")
     public static void forEachBlockInCenteredCube(Location center, Vector size, Consumer<Block> consumer) {
         getBlocksInCenteredCube(center, size).forEach(consumer);
     }

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class MitsuriPower extends DurationPower {
-    HashMap<UUID, UUID> links = new HashMap<>();
+    private final HashMap<UUID, UUID> links = new HashMap<>();
     public MitsuriPower() {
         super(
                 60000,

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class YaguraPower extends DurationPower {
-    HashMap<UUID, PlayerPos> immobilized = new HashMap<>();
+    private final HashMap<UUID, PlayerPos> immobilized = new HashMap<>();
     public YaguraPower() {
         super(
                 60000,
