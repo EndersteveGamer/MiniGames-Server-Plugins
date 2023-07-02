@@ -62,7 +62,8 @@ public class Main extends JavaPlugin {
                 new RemoveFire(),
                 new GiveEffects(),
                 new PreventDamageLoops(),
-                new TickFrozenLiquids()
+                new TickFrozenLiquids(),
+                new TickPluginProfiler()
         );
 
         for (BukkitRunnable runnable : runnables) {

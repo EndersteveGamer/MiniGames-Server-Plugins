@@ -2,6 +2,7 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.powers.Power;
+import fr.enderstevegamer.fightforlobster.utils.PluginProfiler;
 import fr.enderstevegamer.fightforlobster.utils.PowerUtils;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -88,6 +89,7 @@ public class DeidaraPower extends Power {
             case 2 -> activateC3(player);
             case 3 -> activateC4(player);
         }
+        if (selectedPower != 1) onDeathC2(player);
         return true;
     }
 
@@ -147,6 +149,11 @@ public class DeidaraPower extends Power {
     }
 
     private void activateC2(@NotNull Player player) {
+        if (ghastMounts.containsKey(player.getUniqueId())) {
+            removeMountProjectiles(player);
+            ghastMounts.get(player.getUniqueId()).destroyMount();
+            ghastMounts.remove(player.getUniqueId());
+        }
         ghastMounts.put(player.getUniqueId(), new GhastMount(player));
     }
 
@@ -188,7 +195,7 @@ public class DeidaraPower extends Power {
                 new ArrayList<>());
         Location loc = ghast.getLocation();
         loc.setDirection(owner.getLocation().getDirection());
-        ghastProjectiles.get(ghast.getUniqueId()).add(new GhastProjectile(loc, owner.getUniqueId()));
+        ghastProjectiles.get(ghast.getUniqueId()).add(new GhastProjectile(loc.clone(), owner.getUniqueId()));
     }
 
     private void removeMountProjectiles(@NotNull Player player) {
@@ -362,16 +369,19 @@ public class DeidaraPower extends Power {
         }
 
         public void tickProjectile() {
+            if (this.wasRemoved()) return;
             moveProjectile();
             detectExplosion();
         }
 
         private void moveProjectile() {
             this.loc.add(loc.getDirection().clone().multiply(C2_PROJECTILE_SPEED));
+            if (loc.getWorld() != null) loc.getWorld().spawnParticle(Particle.CLOUD, loc, 1, 0, 0, 0,
+                    0.25, null, true);
             if (blockUUID == null) return;
             Entity block = Bukkit.getEntity(blockUUID);
             if (block == null) return;
-            block.teleport(loc);
+            //block.teleport(loc);
         }
 
         private void detectExplosion() {
@@ -392,9 +402,9 @@ public class DeidaraPower extends Power {
                 PowerUtils.damageThroughArmor(player, C2_DAMAGE, owner);
             }
             World world = this.loc.getWorld();
+            this.remove();
             if (world == null) return;
             world.spawnParticle(Particle.EXPLOSION_HUGE, this.loc, 1);
-            this.remove();
         }
 
         public boolean wasRemoved() {return this.wasRemoved;}
