@@ -17,7 +17,3 @@ commands:
     description: Opens the role selection menu
     usage: /selectrole
     aliases: sr
-  getcombattracker:
-    description: Opens the combat tracker (WIP)
-    usage: /getcombattracker
-    aliases: gct
