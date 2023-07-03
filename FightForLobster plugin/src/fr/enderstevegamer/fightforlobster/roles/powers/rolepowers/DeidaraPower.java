@@ -2,15 +2,17 @@ package fr.enderstevegamer.fightforlobster.roles.powers.rolepowers;
 
 import fr.enderstevegamer.fightforlobster.roles.Role;
 import fr.enderstevegamer.fightforlobster.roles.powers.Power;
-import fr.enderstevegamer.fightforlobster.utils.PluginProfiler;
+import fr.enderstevegamer.fightforlobster.utils.BlockUtils;
 import fr.enderstevegamer.fightforlobster.utils.PowerUtils;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
+import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.loot.LootTables;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,18 +37,26 @@ public class DeidaraPower extends Power {
     private static final double C2_PROJECTILE_DETECTION_RADIUS = 2;
     private static final double C2_PROJECTILE_EXPLOSION_RADIUS = 7;
     private static final double C2_PROJECTILE_SPEED = 1.5;
-    private static final long C2_PROJECTILE_COOLDOWN = 4000;
+    private static final long C2_PROJECTILE_COOLDOWN = 2000;
+    private static final double C2_DISPLAY_SIZE = 0.5;
+    private static final double C2_MAX_TRAVEL_DISTANCE = 50;
     private static final double C3_RADIUS = 8;
-    private static final int C3_PROJECTILE_DAMAGE = 6;
-    private static final double C4_TP_RADIUS = 50;
+    private static final int C3_DAMAGE = 6;
     private static final long C4_EXPLOSION_TIMER = 2000;
     private static final double C4_EXPLOSION_RADIUS = 16;
     private static final int C4_DAMAGE = 12;
+    private static final int C4_EXPLOSION_PARTICLES = 10;
+    private static final Long C4_TICK_SOUND_COOLDOWN = 500L;
+    private static final double C4_TP_RADIUS = 50;
+    private static final double C4_TP_MIN_RADIUS = 30;
+    private static final int C4_MAX_SEARCH_TRIES = 30;
+    private static final int C4_VERTICAl_SEARCH_RANGE = 20;
 
     private final HashMap<UUID, ArrayList<Location>> mines = new HashMap<>();
     private final HashMap<UUID, GhastMount> ghastMounts = new HashMap<>();
     private final HashMap<UUID, Long> ghastCooldowns = new HashMap<>();
     private final HashMap<UUID, ArrayList<GhastProjectile>> ghastProjectiles = new HashMap<>();
+    private final HashMap<UUID, ClayDummy> dummies = new HashMap<>();
 
     public DeidaraPower() {
         super(
@@ -66,7 +76,7 @@ public class DeidaraPower extends Power {
                                 "projectiles inflicting " + C2_DAMAGE/2 + " hearts",
                                 "of damage",
                                 "C3: Creates a " + (int) C3_RADIUS + " blocks radius",
-                                "crater, inflicting " + C3_PROJECTILE_DAMAGE /2 + " hearts",
+                                "crater, inflicting " + C3_DAMAGE /2 + " hearts",
                                 "of damage to players",
                                 "C4: Teleports you randomly in a",
                                 (int) C4_TP_RADIUS + " blocks radius, and replaces",
@@ -82,7 +92,6 @@ public class DeidaraPower extends Power {
     @Override
     public boolean onActivation(Player player) {
         int selectedPower = (int) (Math.random() * 4);
-        selectedPower = 1;
         switch (selectedPower) {
             case 0 -> activateC1(player);
             case 1 -> activateC2(player);
@@ -90,6 +99,9 @@ public class DeidaraPower extends Power {
             case 3 -> activateC4(player);
         }
         if (selectedPower != 1) onDeathC2(player);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                "You used C" + (selectedPower + 1) + "!"
+        ));
         return true;
     }
 
@@ -222,24 +234,87 @@ public class DeidaraPower extends Power {
     }
 
     private void activateC3(Player player) {
-
+        BlockUtils.forEachSphereBlock(player.getLocation(), C3_RADIUS, (b) -> b.setType(Material.AIR));
+        player.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, player.getLocation(), 1);
+        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+        for (Player player1 : Bukkit.getOnlinePlayers()) {
+            if (player1.getUniqueId().equals(player.getUniqueId())) continue;
+            if (player1.getLocation().distance(player.getLocation()) > C3_RADIUS) continue;
+            PowerUtils.damageThroughArmor(player1, C3_DAMAGE, player);
+        }
     }
 
     private void activateC4(Player player) {
+        if (dummies.containsKey(player.getUniqueId())) dummies.get(player.getUniqueId()).removeDummy();
+        dummies.put(player.getUniqueId(), new ClayDummy(player));
+        teleportOwner(player);
+    }
 
+    private void teleportOwner(Player player) {
+        Location startLoc = player.getLocation().clone();
+        Location selectedLoc = null;
+        for (int i = 0; i < C4_MAX_SEARCH_TRIES; i++) {
+            ArrayList<Location> possibleLocs = new ArrayList<>();
+            Location horizontLoc;
+            do {
+                horizontLoc = player.getLocation().getBlock().getLocation();
+                horizontLoc.add(0.5, 0, 0.5);
+                horizontLoc.setX(horizontLoc.getX() + (int) ((Math.random() - 0.5) * 2 * C4_TP_RADIUS));
+                horizontLoc.setZ(horizontLoc.getZ() + (int) ((Math.random() - 0.5) * 2 * C4_TP_RADIUS));
+            } while (horizontLoc.distance(startLoc) < C4_TP_MIN_RADIUS);
+            for (int y = (int) horizontLoc.getY() - C4_VERTICAl_SEARCH_RANGE;
+                 y < horizontLoc.getY() + C4_VERTICAl_SEARCH_RANGE;
+                 y++) {
+                Location loc = horizontLoc.clone();
+                loc.setY(y);
+                if (canTeleportHere(loc)) possibleLocs.add(loc);
+            }
+            if (possibleLocs.size() == 0) continue;
+            selectedLoc = possibleLocs.get((int)(Math.random() * possibleLocs.size()));
+        }
+        if (selectedLoc == null) return;
+        selectedLoc.setDirection(PowerUtils.vectorFromLocations(selectedLoc, startLoc).normalize());
+        player.teleport(selectedLoc);
+    }
+
+    private static boolean canTeleportHere(@NotNull Location loc) {
+        return !loc.getBlock().getRelative(0, -1, 0).isPassable()
+                && loc.getBlock().isPassable()
+                && loc.getBlock().getRelative(0, 1, 0).isPassable();
+    }
+
+    private void tickC4(Player player) {
+        if (!dummies.containsKey(player.getUniqueId())) return;
+        boolean exploded = dummies.get(player.getUniqueId()).tickDummy();
+        if (exploded) dummies.remove(player.getUniqueId());
+    }
+
+    private void onDeathC4(Player player) {
+        if (!dummies.containsKey(player.getUniqueId())) return;
+        dummies.get(player.getUniqueId()).removeDummy();
+        dummies.remove(player.getUniqueId());
     }
 
     @Override
     public void tick(Player player) {
         tickC1(player);
         tickC2(player);
+        tickC4(player);
     }
 
     @Override
     public void onPlayerDeath(Player player) {
         onDeathC1(player);
         onDeathC2(player);
+        onDeathC4(player);
         super.onPlayerDeath(player);
+    }
+
+    public void onBlockForm(EntityBlockFormEvent event) {
+        Entity entity = event.getEntity();
+        for (ClayDummy dummy : dummies.values()) {
+            if (entity.getUniqueId().equals(dummy.getSnowGolemUUID())) event.setCancelled(true);
+        }
     }
 
     private static class GhastMount {
@@ -336,35 +411,20 @@ public class DeidaraPower extends Power {
     }
 
     private static class GhastProjectile {
-        private final UUID blockUUID;
         private final Location loc;
         private final UUID ownerUUID;
+        private double distanceTravelled;
 
         private boolean wasRemoved;
 
         public GhastProjectile(Location loc, @NotNull UUID ownerUUID) {
             this.loc = loc;
-            this.blockUUID = buildFallingBlock(loc);
             this.ownerUUID = ownerUUID;
             this.wasRemoved = false;
-        }
-
-        private @Nullable UUID buildFallingBlock(@NotNull Location loc) {
-            World world = loc.getWorld();
-            if (world == null) return null;
-            FallingBlock block = world.spawnFallingBlock(loc, Material.WHITE_CONCRETE.createBlockData());
-            block.setDropItem(false);
-            block.setGravity(false);
-            block.setVelocity(new Vector(0, 0, 0));
-            block.setInvulnerable(true);
-            return block.getUniqueId();
+            this.distanceTravelled = 0;
         }
 
         public void remove() {
-            if (blockUUID == null) return;
-            Entity entity = Bukkit.getEntity(blockUUID);
-            if (entity == null) return;
-            entity.remove();
             this.wasRemoved = true;
         }
 
@@ -375,16 +435,19 @@ public class DeidaraPower extends Power {
         }
 
         private void moveProjectile() {
-            this.loc.add(loc.getDirection().clone().multiply(C2_PROJECTILE_SPEED));
-            if (loc.getWorld() != null) loc.getWorld().spawnParticle(Particle.CLOUD, loc, 1, 0, 0, 0,
-                    0.25, null, true);
-            if (blockUUID == null) return;
-            Entity block = Bukkit.getEntity(blockUUID);
-            if (block == null) return;
-            //block.teleport(loc);
+            if (!loc.getChunk().isLoaded()) return;
+            this.loc.add(loc.getDirection().multiply(C2_PROJECTILE_SPEED));
+            loc.getDirection().normalize();
+            this.distanceTravelled += C2_PROJECTILE_SPEED;
+            World world = loc.getWorld();
+            if (world == null) return;
+            world.spawnParticle(Particle.CLOUD, loc, 5, 0, 0, 0, 0.5, null, true);
+            world.spawnParticle(Particle.REDSTONE, loc, 20, C2_DISPLAY_SIZE, C2_DISPLAY_SIZE, C2_DISPLAY_SIZE,
+                    0.1, new Particle.DustOptions(Color.WHITE, 1), true);
         }
 
         private void detectExplosion() {
+            if (this.distanceTravelled > C2_MAX_TRAVEL_DISTANCE) {this.explode(); return;}
             if (!loc.getBlock().isPassable()) {this.explode(); return;}
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getUniqueId().equals(ownerUUID)) continue;
@@ -404,9 +467,79 @@ public class DeidaraPower extends Power {
             World world = this.loc.getWorld();
             this.remove();
             if (world == null) return;
-            world.spawnParticle(Particle.EXPLOSION_HUGE, this.loc, 1);
+            world.spawnParticle(Particle.EXPLOSION_HUGE, this.loc, 1, 0, 0, 0, 1, null, true);
         }
 
         public boolean wasRemoved() {return this.wasRemoved;}
+    }
+
+    private static class ClayDummy {
+        private final Location loc;
+        private final UUID dummyUUID;
+        private final UUID ownerUUID;
+        private final Long triggerTime;
+        private int ticksMade;
+        private Long lastTick;
+
+        public ClayDummy(Player player) {
+            this.loc = player.getLocation().clone();
+            this.triggerTime = System.currentTimeMillis() + C4_EXPLOSION_TIMER;
+            this.dummyUUID = buildSnowGolem(player);
+            this.ownerUUID = player.getUniqueId();
+            this.ticksMade = 0;
+            this.lastTick = null;
+        }
+
+        private UUID buildSnowGolem(Player player) {
+            Snowman golem = (Snowman) player.getWorld().spawnEntity(player.getLocation(), EntityType.SNOWMAN);
+            golem.setAI(false);
+            golem.setInvulnerable(true);
+            golem.setDerp(true);
+            golem.getLocation().setDirection(player.getLocation().getDirection().clone());
+            return golem.getUniqueId();
+        }
+
+        private void explode() {
+            BlockUtils.forEachSphereBlock(this.loc, C4_EXPLOSION_RADIUS, (b) -> b.setType(Material.AIR));
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.getUniqueId().equals(this.ownerUUID)) continue;
+                if (player.getLocation().distance(this.loc) > C4_EXPLOSION_RADIUS) continue;
+                PowerUtils.damageThroughArmor(player, C4_DAMAGE, Bukkit.getPlayer(this.ownerUUID));
+            }
+            this.removeDummy();
+            World world = this.loc.getWorld();
+            if (world == null) return;
+            for (int i = 0; i < C4_EXPLOSION_PARTICLES; i++) {
+                world.spawnParticle(Particle.EXPLOSION_HUGE,
+                        BlockUtils.randomPointInSphere(this.loc, C4_EXPLOSION_RADIUS), 1);
+            }
+            world.spawnParticle(Particle.EXPLOSION_HUGE, this.loc, 1);
+            world.playSound(this.loc, Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+        }
+
+        private void removeDummy() {
+            Entity golem = Bukkit.getEntity(this.dummyUUID);
+            if (golem != null) golem.remove();
+        }
+
+        private boolean tickDummy() {
+            long time = System.currentTimeMillis();
+            if (lastTick == null || time > lastTick + C4_TICK_SOUND_COOLDOWN) tickSound();
+            if (time > this.triggerTime) this.explode();
+            return time > this.triggerTime;
+        }
+
+        private void tickSound() {
+            this.lastTick = System.currentTimeMillis();
+            this.ticksMade++;
+            World world = this.loc.getWorld();
+            if (world == null) return;
+            if (ticksMade % 2 == 0) {
+                world.playSound(this.loc, Sound.BLOCK_NOTE_BLOCK_XYLOPHONE, 1, (float) Math.pow(2, -11/12d));
+            }
+            else world.playSound(this.loc, Sound.BLOCK_NOTE_BLOCK_XYLOPHONE,1, (float) Math.pow(2, -6/12d));
+        }
+
+        public UUID getSnowGolemUUID() {return this.dummyUUID;}
     }
 }

@@ -46,7 +46,8 @@ public class Main extends JavaPlugin {
                 new OnEntityDeath(),
                 new OnPlayerJoin(),
                 new OnProjectileLand(),
-                new OnEntityTarget()
+                new OnEntityTarget(),
+                new OnEntityBlockForm()
         );
 
         for (Listener listener : listeners) {
