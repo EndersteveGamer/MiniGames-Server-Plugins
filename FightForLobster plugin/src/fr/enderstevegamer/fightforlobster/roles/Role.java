@@ -244,7 +244,7 @@ public enum Role {
             "Killer Bee",
             List.of(),
             List.of(
-                    new RoleModifier(RoleModifierType.RESISTANCE, 0.3),
+                    new RoleModifier(RoleModifierType.RESISTANCE, 0.7),
                     new RoleModifier(RoleModifierType.HEALTH, 4)
             ),
             1.4f
