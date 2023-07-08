@@ -55,6 +55,7 @@ public class DomaPower extends DurationPower {
             if (b.isPassable()) b.setType(Material.AIR);
             else {
                 if (b.getType().equals(Material.BLUE_ICE)) return;
+                if (b.getType().equals(Material.REDSTONE_BLOCK)) return;
                 blocks.get(player.getUniqueId()).add(b.getState());
                 b.setType(Material.BLUE_ICE);
             }

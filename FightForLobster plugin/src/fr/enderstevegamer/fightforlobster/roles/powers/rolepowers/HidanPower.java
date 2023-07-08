@@ -97,6 +97,7 @@ public class HidanPower extends DurationPower {
                         if (block.getLocation().distance(loc) > RADIUS) continue;
                         if (block.isPassable()) break;
                         if (block.getType().equals(Material.REDSTONE_BLOCK)) break;
+                        if (block.getType().equals(Material.BLUE_ICE)) break;
                         blocks.get(player.getUniqueId()).add(block.getState());
                         block.setType(Material.REDSTONE_BLOCK);
                         break;
