@@ -98,6 +98,12 @@ public class UtakataPower extends DurationPower {
         return min;
     }
 
+    @Override
+    public void onPlayerDeath(Player player) {
+        poisonTrails.remove(player.getUniqueId());
+        super.onPlayerDeath(player);
+    }
+
     private record PoisonSphere(Location loc, double creationTime) {
         public PoisonSphere(Location loc) {
             this(loc, System.currentTimeMillis());

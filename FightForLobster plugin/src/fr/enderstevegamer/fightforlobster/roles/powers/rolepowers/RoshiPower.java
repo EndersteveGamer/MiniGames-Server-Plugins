@@ -81,7 +81,7 @@ public class RoshiPower extends Power {
                 BlockUtils.dontUpdateLiquid(fireball.getLocation().getBlock());
                 event.setCancelled(true);
                 fireball.remove();
-                fireballs.get(uuid).remove(fireball.getUniqueId());
+                if (fireballs.containsKey(uuid)) fireballs.get(uuid).remove(fireball.getUniqueId());
             }
         }
     }
